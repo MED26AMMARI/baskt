@@ -1,0 +1,1559 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enseignant d'EPS — Tir Basket-ball</title>
+<style>
+:root{
+  --blue-deep:#0A1628;
+  --blue-dark:#0E2040;
+  --blue-mid:#1A3560;
+  --blue-accent:#1E4DB7;
+  --blue-bright:#2563EB;
+  --blue-glow:#3B82F6;
+  --blue-lt:#DBEAFE;
+  --blue-ultra:#EFF6FF;
+  --orange:#E8570A;--orange-lt:#FFF0E6;--orange-md:#FF8C42;
+  --cream:#F0F4FA;--white:#FFFFFF;--slate:#4A6080;--border:#CBD5E1;--border2:#94A3B8;
+  --n1:#C0392B;--n1l:#FDECEA;--n1m:#E74C3C;
+  --n2:#B5650D;--n2l:#FEF3DC;--n2m:#E67E22;
+  --n3:#1E6E3C;--n3l:#E6F4EC;--n3m:#27AE60;
+  --n4:#1255A0;--n4l:#E8F0FE;--n4m:#2980B9;
+  --na:#64748B;--nal:#E2E8F0;
+  --r:8px;--rl:14px;
+  --sh:0 1px 3px rgba(30,64,175,.07),0 4px 16px rgba(30,64,175,.06);
+  --sh2:0 2px 8px rgba(30,64,175,.1),0 8px 32px rgba(30,64,175,.1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:15px;scroll-behavior:smooth;-webkit-tap-highlight-color:transparent}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--cream);color:var(--blue-dark);min-width:320px;line-height:1.6}
+button{cursor:pointer;font-family:inherit;border:none}
+input,select{font-family:inherit;font-size:inherit}
+table{border-collapse:collapse;width:100%}
+
+/* ── HEADER ── */
+.hd{
+  background:linear-gradient(160deg,var(--blue-deep) 0%,var(--blue-dark) 50%,#0B1E45 100%);
+  color:#fff;padding:0;position:relative;overflow:hidden;
+}
+.hd::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse at 80% 40%,rgba(37,99,235,.18) 0%,transparent 55%),
+    radial-gradient(ellipse at 10% 80%,rgba(30,77,183,.12) 0%,transparent 50%);
+  pointer-events:none;
+}
+/* court lines decoration */
+.hd-court{
+  position:absolute;right:-40px;top:-40px;
+  width:260px;height:260px;
+  border:2px solid rgba(59,130,246,.14);
+  border-radius:50%;pointer-events:none;
+}
+.hd-court2{
+  position:absolute;right:50px;top:30px;
+  width:90px;height:90px;
+  border:2px solid rgba(59,130,246,.09);
+  border-radius:50%;pointer-events:none;
+}
+.hd-line{
+  position:absolute;left:0;right:0;
+  top:50%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(59,130,246,.1),transparent);
+  pointer-events:none;
+}
+.hd-inner{position:relative;z-index:1;padding:18px 22px 0}
+.hd-top{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.hd-ball{
+  width:48px;height:48px;border-radius:50%;
+  background:linear-gradient(135deg,var(--orange) 0%,#B34000 100%);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.5rem;flex-shrink:0;
+  box-shadow:0 4px 18px rgba(232,87,10,.45),0 0 0 3px rgba(232,87,10,.15);
+}
+.hd-texts{}
+.hd-eyebrow{
+  font-size:.65rem;font-weight:700;
+  color:#93B4D8;text-transform:uppercase;letter-spacing:.1em;
+  margin-bottom:3px;display:flex;align-items:center;gap:6px;
+}
+.hd-eyebrow::before{content:'';width:16px;height:1px;background:#3B6FA0;display:inline-block}
+.hd-title{
+  font-size:1.22rem;font-weight:800;letter-spacing:-.02em;line-height:1.15;
+  color:#fff;
+}
+.hd-title em{font-style:normal;color:var(--orange-md)}
+
+/* KPI strip */
+.hd-kpis{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1px;background:rgba(255,255,255,.05);
+  border-top:1px solid rgba(255,255,255,.06);
+}
+.hd-kpi{
+  padding:11px 10px;background:rgba(255,255,255,.025);text-align:center;
+  transition:background .2s;
+}
+.hd-kpi:hover{background:rgba(255,255,255,.05)}
+.hd-kpi .kv{font-size:1.3rem;font-weight:800;color:#60A5FA;line-height:1}
+.hd-kpi .kl{font-size:.6rem;font-weight:600;color:#6B90B8;text-transform:uppercase;letter-spacing:.06em;margin-top:3px}
+
+/* badge strip */
+.hd-badges{
+  display:flex;gap:6px;flex-wrap:wrap;
+  padding:9px 22px 14px;
+  background:rgba(0,0,0,.18);
+  border-top:1px solid rgba(255,255,255,.04);
+}
+.bdg{font-size:.62rem;font-weight:700;padding:3px 9px;border-radius:20px;text-transform:uppercase;letter-spacing:.06em}
+.bdg-o{background:var(--orange);color:#fff}
+.bdg-b{background:rgba(59,130,246,.25);color:#93C5FD;border:1px solid rgba(59,130,246,.2)}
+
+/* ── PROGRESS ── */
+.prog{
+  display:flex;align-items:center;gap:10px;
+  padding:7px 18px;background:var(--blue-dark);
+  font-size:.71rem;color:#4A6FA0;
+  border-bottom:1px solid rgba(255,255,255,.04);
+}
+.prog-track{flex:1;height:3px;background:rgba(255,255,255,.07);border-radius:2px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--blue-bright),#60A5FA);border-radius:2px;transition:width .4s cubic-bezier(.4,0,.2,1);width:20%}
+#prog-pct{min-width:28px;text-align:right;font-weight:700;color:#60A5FA}
+
+/* ── STEPPER ── */
+.stepper{
+  display:flex;background:var(--blue-mid);
+  overflow-x:auto;scrollbar-width:none;
+  border-bottom:2px solid rgba(255,255,255,.05);
+}
+.stepper::-webkit-scrollbar{display:none}
+.sbtn{
+  flex:1;min-width:90px;padding:10px 6px 9px;
+  background:none;color:#4A7AAA;
+  font-size:.7rem;font-weight:600;text-align:center;
+  border-bottom:2px solid transparent;
+  transition:color .18s,border-color .18s,background .18s;
+}
+.sbtn:hover{background:rgba(255,255,255,.04);color:#7AA8D4}
+.snum{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:20px;height:20px;border-radius:50%;
+  background:rgba(255,255,255,.08);font-size:.78rem;font-weight:800;
+  color:inherit;margin-bottom:3px;transition:all .18s;
+}
+.slbl{display:block;font-size:.67rem}
+.sbtn.active{color:#60A5FA;border-bottom-color:#60A5FA}
+.sbtn.active .snum{background:var(--blue-bright);color:#fff;box-shadow:0 0 0 3px rgba(37,99,235,.25)}
+.sbtn.done{color:#3A9466}
+.sbtn.done .snum{background:var(--n3);color:#fff}
+
+/* ── PANELS ── */
+.panel{display:none;padding:20px 18px 52px;max-width:900px;margin:0 auto}
+.panel.active{display:block}
+
+.ph{
+  display:flex;align-items:flex-start;gap:14px;
+  margin-bottom:22px;padding-bottom:18px;
+  border-bottom:1.5px solid var(--border);
+}
+.ph-icon{
+  width:40px;height:40px;border-radius:10px;
+  background:var(--blue-lt);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.2rem;flex-shrink:0;
+}
+.ph-title{font-size:1.05rem;font-weight:800;color:var(--blue-dark);margin-bottom:2px}
+.ph-desc{font-size:.8rem;color:var(--slate);line-height:1.55}
+
+/* ── CARDS ── */
+.card{
+  background:var(--white);border:1px solid var(--border);
+  border-radius:var(--rl);box-shadow:var(--sh);
+  padding:18px;margin-bottom:14px;
+}
+.card-t{
+  font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;
+  color:var(--slate);margin-bottom:14px;display:flex;align-items:center;gap:8px;
+}
+.card-t .dot{width:7px;height:7px;border-radius:50%;background:var(--blue-bright);flex-shrink:0}
+
+/* ── TABS ── */
+.tabs{display:flex;gap:6px;margin-bottom:18px}
+.tab-btn{
+  padding:8px 16px;border:1.5px solid var(--border);border-radius:var(--r);
+  background:var(--white);font-size:.8rem;font-weight:600;color:var(--slate);
+  transition:all .15s;
+}
+.tab-btn.active{background:var(--blue-dark);color:#fff;border-color:var(--blue-dark)}
+.tab-btn:hover:not(.active){border-color:var(--blue-accent);color:var(--blue-accent)}
+
+/* ── FORM ── */
+.fsect{
+  font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;
+  color:var(--slate);margin:16px 0 8px;display:flex;align-items:center;gap:8px;
+}
+.fsect::after{content:'';flex:1;height:1px;background:var(--border)}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:6px}
+.fg{display:flex;flex-direction:column;gap:4px}
+.fg label{font-size:.72rem;font-weight:600;color:var(--slate);display:flex;align-items:center;gap:4px}
+.fg input{
+  padding:8px 10px;border:1.5px solid var(--border);border-radius:var(--r);
+  font-size:.87rem;background:var(--white);color:var(--blue-dark);
+  transition:border-color .15s,box-shadow .15s;
+}
+.fg input:focus{outline:none;border-color:var(--blue-bright);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+.fg input.c5{background:#F0F8FF;border-color:#AACCEE}
+.fg input.c5:focus{border-color:var(--n4);box-shadow:0 0 0 3px rgba(18,85,160,.1)}
+.hi{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:14px;height:14px;border-radius:50%;
+  background:var(--border);color:var(--slate);
+  font-size:.6rem;font-weight:800;cursor:help;flex-shrink:0;
+}
+
+/* ── BUTTONS ── */
+.btn{padding:9px 18px;border-radius:var(--r);font-size:.83rem;font-weight:700;transition:all .15s;letter-spacing:.01em}
+.btn:active{transform:scale(.97)}
+.btn-p{background:var(--blue-bright);color:#fff;box-shadow:0 2px 8px rgba(37,99,235,.28)}
+.btn-p:hover{background:var(--blue-accent);box-shadow:0 4px 14px rgba(37,99,235,.38)}
+.btn-g{background:var(--white);border:1.5px solid var(--border);color:var(--slate)}
+.btn-g:hover{border-color:var(--blue-accent);color:var(--blue-accent)}
+.btn-d{background:var(--n1);color:#fff;font-size:.72rem;padding:5px 10px;border-radius:6px}
+.btn-sm{padding:6px 12px;font-size:.76rem}
+.ar{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+
+/* ── CSV DROP ZONE ── */
+.csv-hero{
+  background:linear-gradient(135deg,var(--blue-dark) 0%,var(--blue-mid) 100%);
+  border-radius:var(--rl);padding:24px 22px;margin-bottom:16px;
+  color:#fff;position:relative;overflow:hidden;
+}
+.csv-hero::before{
+  content:'';position:absolute;right:-30px;top:-30px;
+  width:160px;height:160px;border:2px solid rgba(255,255,255,.06);
+  border-radius:50%;pointer-events:none;
+}
+.csv-hero-top{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.csv-hero-icon{
+  width:44px;height:44px;border-radius:10px;
+  background:rgba(255,255,255,.1);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.4rem;flex-shrink:0;
+}
+.csv-hero-title{font-size:.92rem;font-weight:800;color:#fff;margin-bottom:2px}
+.csv-hero-sub{font-size:.74rem;color:#93B4D8}
+
+.csv-drop{
+  border:2px dashed rgba(255,255,255,.2);
+  border-radius:var(--r);padding:28px 20px;
+  text-align:center;cursor:pointer;
+  transition:all .2s;background:rgba(255,255,255,.04);
+  position:relative;margin-bottom:16px;
+}
+.csv-drop:hover,.csv-drop.drag-over{
+  border-color:var(--blue-glow);
+  background:rgba(59,130,246,.08);
+}
+.csv-drop-icon{font-size:2rem;margin-bottom:8px;display:block;opacity:.7}
+.csv-drop-text{font-size:.82rem;color:#93B4D8;line-height:1.6}
+.csv-drop-text strong{color:#fff;display:block;margin-bottom:3px;font-size:.88rem}
+.csv-drop-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  margin-top:12px;padding:8px 18px;border-radius:var(--r);
+  background:var(--blue-bright);color:#fff;
+  font-size:.8rem;font-weight:700;border:none;cursor:pointer;
+  transition:background .15s;
+}
+.csv-drop-btn:hover{background:var(--blue-accent)}
+#csv-file-real{display:none}
+
+.csv-format{
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
+  border-radius:var(--r);padding:12px 14px;margin-bottom:0;
+}
+.csv-format-title{
+  font-size:.68rem;font-weight:700;color:#93B4D8;
+  text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px;
+  display:flex;align-items:center;gap:6px;
+}
+.csv-cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:6px}
+.csv-col{
+  display:flex;align-items:center;gap:6px;
+  font-size:.72rem;color:#C4D8F0;
+  background:rgba(255,255,255,.05);
+  padding:5px 8px;border-radius:5px;
+}
+.csv-col-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.csv-col-dot.req{background:#60A5FA}
+.csv-col-dot.opt{background:#F59E0B}
+
+/* grille download button */
+.grille-dl{
+  display:flex;align-items:center;gap:14px;
+  background:var(--white);border:1.5px solid var(--border);
+  border-radius:var(--rl);padding:16px 18px;
+  margin-bottom:14px;box-shadow:var(--sh);
+  transition:border-color .15s,box-shadow .15s;
+}
+.grille-dl:hover{border-color:var(--blue-bright);box-shadow:var(--sh2)}
+.grille-dl-icon{
+  width:44px;height:44px;border-radius:10px;
+  background:var(--blue-lt);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.4rem;flex-shrink:0;
+}
+.grille-dl-body{flex:1}
+.grille-dl-title{font-size:.88rem;font-weight:700;color:var(--blue-dark);margin-bottom:2px}
+.grille-dl-sub{font-size:.74rem;color:var(--slate)}
+.grille-dl-btn{
+  padding:8px 16px;border-radius:var(--r);
+  background:var(--blue-bright);color:#fff;
+  font-size:.78rem;font-weight:700;border:none;cursor:pointer;
+  white-space:nowrap;flex-shrink:0;
+  transition:background .15s;
+}
+.grille-dl-btn:hover{background:var(--blue-accent)}
+
+/* csv progress */
+.csv-status{
+  display:none;
+  padding:12px 14px;border-radius:var(--r);
+  font-size:.8rem;font-weight:600;margin-top:12px;
+  align-items:center;gap:10px;
+}
+.csv-status.ok{background:#E6F4EC;color:#1E6E3C;border:1px solid #A7D7B6;display:flex}
+.csv-status.err{background:var(--n1l);color:var(--n1);border:1px solid #F5A8A0;display:flex}
+
+/* ── JOUEURS ── */
+.jlist{display:flex;flex-direction:column;gap:8px;margin-top:14px}
+.jcard{
+  background:var(--white);border:1px solid var(--border);border-radius:var(--r);
+  padding:10px 14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  transition:border-color .15s;
+}
+.jcard:hover{border-color:rgba(37,99,235,.3)}
+.jnum{
+  width:24px;height:24px;border-radius:50%;
+  background:var(--blue-dark);color:#fff;
+  font-size:.66rem;font-weight:800;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.jnom{font-weight:700;font-size:.86rem;flex:1;min-width:90px}
+.jchips{display:flex;gap:4px;flex-wrap:wrap}
+.chip{font-size:.66rem;padding:2px 7px;border-radius:12px;font-weight:700}
+.cn1{background:var(--n1l);color:var(--n1)}
+.cn2{background:var(--n2l);color:var(--n2)}
+.cn3{background:var(--n3l);color:var(--n3)}
+.cn4{background:var(--n4l);color:var(--n4)}
+.cn-na{background:var(--nal);color:var(--na)}
+
+/* ── ALERTS ── */
+.al{border-radius:var(--r);padding:11px 14px;margin-bottom:14px;font-size:.8rem;line-height:1.65}
+.al-w{background:var(--n2l);color:#7A4000;border-left:3px solid var(--n2m)}
+.al-i{background:var(--blue-lt);color:#1A3A80;border-left:3px solid var(--blue-bright)}
+.al-ok{background:var(--n3l);color:#144A28;border-left:3px solid var(--n3m)}
+
+/* ── DIAG TABLE ── */
+.dtw{overflow-x:auto;margin-bottom:14px;border-radius:var(--r);border:1px solid var(--border);box-shadow:var(--sh)}
+.dt th{
+  background:var(--blue-dark);color:#fff;
+  font-size:.7rem;font-weight:700;padding:9px 8px;text-align:center;white-space:nowrap;
+}
+.dt th:first-child{text-align:left}
+.dt td{padding:8px 8px;font-size:.76rem;text-align:center;border-bottom:1px solid var(--border)}
+.dt tr:nth-child(even) td{background:#F8FAFF}
+.dt tr:last-child td{border-bottom:none}
+.dt td.nc{text-align:left;font-weight:700;font-size:.8rem}
+.prf-n1{background:var(--n1);color:#fff;padding:2px 7px;border-radius:12px;font-size:.66rem;font-weight:700;white-space:nowrap}
+.prf-n2{background:var(--n2);color:#fff;padding:2px 7px;border-radius:12px;font-size:.66rem;font-weight:700;white-space:nowrap}
+.prf-n3{background:var(--n3);color:#fff;padding:2px 7px;border-radius:12px;font-size:.66rem;font-weight:700;white-space:nowrap}
+.prf-n4{background:var(--n4);color:#fff;padding:2px 7px;border-radius:12px;font-size:.66rem;font-weight:700;white-space:nowrap}
+.prf-na{background:var(--na);color:#fff;padding:2px 7px;border-radius:12px;font-size:.66rem;font-weight:700;white-space:nowrap}
+
+/* ── BILAN ── */
+.bgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;margin-bottom:18px}
+.bbox{border-radius:var(--rl);padding:16px 10px;text-align:center;border:1px solid transparent;transition:transform .15s}
+.bbox:hover{transform:translateY(-2px)}
+.bbox .bv{font-size:1.8rem;font-weight:800;line-height:1}
+.bbox .bl{font-size:.66rem;font-weight:700;margin-top:5px;text-transform:uppercase;letter-spacing:.04em;opacity:.85}
+
+/* ── LEGEND ── */
+.leg{display:flex;gap:14px;flex-wrap:wrap;font-size:.72rem;padding:10px 14px;background:var(--white);border:1px solid var(--border);border-radius:var(--r);margin-bottom:16px}
+.li{display:flex;align-items:center;gap:5px;font-weight:700}
+.ld{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+
+/* ── SEUILS ── */
+.seuils-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;font-size:.73rem}
+.seuil-box{padding:9px 11px;background:var(--cream);border-radius:var(--r);border-left:3px solid var(--border2);line-height:1.55}
+.seuil-box.c5{background:var(--n4l);border-color:var(--n4m)}
+.seuil-box strong{font-size:.76rem;display:block;margin-bottom:2px;color:var(--blue-dark)}
+
+/* ── CROISEMENT ── */
+.dpc{border-radius:var(--r);padding:12px 15px;margin-bottom:10px;font-size:.8rem;line-height:1.65}
+
+/* ── AXES ── */
+.axe-counter{font-size:.8rem;color:var(--slate);margin-bottom:14px;padding:10px 14px;background:var(--white);border:1px solid var(--border);border-radius:var(--r);display:flex;align-items:center;gap:8px}
+.axe-counter strong{color:var(--blue-bright);font-size:1.05rem;font-weight:800}
+.axe-counter strong.acnt-warn{color:var(--n1)}
+.acard{background:var(--white);border:1.5px solid var(--border);border-radius:var(--rl);padding:15px;margin-bottom:10px;display:flex;gap:14px;align-items:flex-start;transition:border-color .15s,box-shadow .15s,transform .15s;cursor:pointer}
+.acard:hover{border-color:rgba(37,99,235,.35);box-shadow:0 2px 12px rgba(37,99,235,.08);transform:translateY(-1px)}
+.acard.sel{border-color:var(--blue-bright);box-shadow:0 0 0 3px rgba(37,99,235,.12);background:rgba(37,99,235,.015)}
+.achk{width:22px;height:22px;border:2px solid var(--border2);border-radius:6px;flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;font-size:.9rem;transition:all .15s}
+.achk.ck{background:var(--blue-bright);border-color:var(--blue-bright);color:#fff}
+.abody{flex:1}
+.atitle{font-weight:800;font-size:.88rem;margin-bottom:4px;color:var(--blue-dark)}
+.atag{display:inline-flex;align-items:center;gap:4px;font-size:.66rem;font-weight:700;padding:2px 8px;border-radius:12px;text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px}
+.tt{background:#FFF0E6;color:#8C3500}.td{background:var(--n4l);color:#0C3580}
+.te{background:var(--n3l);color:#0E4422}.tz{background:var(--n2l);color:#6A3A00}.tm{background:#F3E5F5;color:#5A1080}
+.apct{font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:12px;background:var(--n1l);color:var(--n1);display:inline-block;margin-left:6px}
+.adesc{font-size:.76rem;line-height:1.6;color:var(--slate);margin-top:7px}
+.asa{font-size:.73rem;margin-top:8px;padding:8px 10px;background:var(--cream);border-radius:6px;border-left:3px solid #C8813A;line-height:1.6;color:var(--blue-dark)}
+.apass{font-size:.7rem;font-weight:700;color:var(--n3);margin-top:8px;display:flex;align-items:center;gap:5px}
+
+/* ── PARAMETRAGE ── */
+.slwrap{margin-bottom:20px}
+.slrow{display:flex;justify-content:space-between;font-size:.8rem;font-weight:600;margin-bottom:10px;color:var(--blue-dark)}
+.slval{font-size:1.7rem;font-weight:800;color:var(--blue-bright);line-height:1}
+input[type=range]{width:100%;accent-color:var(--blue-bright);cursor:pointer;height:5px;border-radius:3px}
+.slmarks{display:flex;justify-content:space-between;font-size:.67rem;color:var(--slate);margin-top:6px}
+.dprev{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
+.dbox{border-radius:var(--rl);padding:16px 10px;text-align:center;border:1px solid transparent}
+.dbox .dv{font-size:1.5rem;font-weight:800;line-height:1}
+.dbox .dl{font-size:.66rem;font-weight:700;margin-top:4px;text-transform:uppercase;letter-spacing:.03em}
+.da{background:var(--n1l);color:var(--n1);border-color:rgba(192,57,43,.15)}
+.db{background:var(--n2l);color:var(--n2);border-color:rgba(181,101,13,.15)}
+.dc{background:var(--n3l);color:var(--n3);border-color:rgba(30,110,60,.15)}
+
+/* ── PLANIF ── */
+.sc{background:var(--white);border:1px solid var(--border);border-radius:var(--rl);margin-bottom:16px;overflow:hidden;box-shadow:var(--sh);transition:box-shadow .2s}
+.sc:hover{box-shadow:var(--sh2)}
+.sh{background:linear-gradient(90deg,var(--blue-deep) 0%,var(--blue-dark) 100%);color:#fff;padding:11px 16px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.snum-lbl{font-size:.68rem;font-weight:700;background:rgba(255,255,255,.12);padding:3px 9px;border-radius:20px;white-space:nowrap;letter-spacing:.03em}
+.stit{font-size:.85rem;font-weight:700;flex:1;min-width:0}
+.stag{font-size:.66rem;font-weight:700;padding:3px 9px;border-radius:20px;white-space:nowrap;background:var(--blue-bright)}
+.sphase{font-size:.65rem;font-weight:700;padding:3px 8px;border-radius:20px;text-transform:uppercase;letter-spacing:.04em}
+.pd{background:rgba(33,150,243,.2);color:#90CAF9}.pv{background:rgba(255,152,0,.2);color:#FFCC80}.pc{background:rgba(76,175,80,.2);color:#A5D6A7}
+.sbody{padding:15px}
+.ggrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px}
+.gcol{border-radius:var(--r);padding:12px;font-size:.76rem;border:1px solid transparent}
+.ga{background:var(--n1l);border-color:rgba(192,57,43,.12)}.gb{background:var(--n2l);border-color:rgba(181,101,13,.12)}.gc{background:var(--n3l);border-color:rgba(30,110,60,.12)}
+.gtt{font-size:.67rem;font-weight:800;text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px}
+.ga .gtt{color:var(--n1)}.gb .gtt{color:var(--n2)}.gc .gtt{color:var(--n3)}
+.gk{line-height:1.6;margin-bottom:8px;color:var(--blue-dark)}
+.gcr{font-size:.7rem;font-weight:600;padding:5px 8px;border-radius:5px;background:rgba(255,255,255,.7);line-height:1.4;border-left:2px solid currentColor;margin-bottom:8px}
+.ga .gcr{border-color:var(--n1);color:var(--n1)}.gb .gcr{border-color:var(--n2);color:var(--n2)}.gc .gcr{border-color:var(--n3);color:var(--n3)}
+.gsec{margin-bottom:9px}
+.gsec:last-child{margin-bottom:0}
+.gslbl{font-size:.6rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;opacity:.7;margin-bottom:3px}
+.ga .gslbl{color:var(--n1)}.gb .gslbl{color:var(--n2)}.gc .gslbl{color:var(--n3)}
+.greg{font-size:.7rem;font-weight:500;padding:5px 8px;border-radius:5px;background:rgba(255,255,255,.55);line-height:1.45;border-left:2px dashed var(--slate);color:var(--slate)}
+.sarow{background:var(--cream);border-radius:var(--r);padding:9px 12px;margin-bottom:8px;font-size:.76rem;border-left:3px solid #C8813A}
+.salbl{font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#8C5A1A;margin-bottom:3px}
+.satxt{line-height:1.6;color:var(--blue-dark)}
+.pind{font-size:.7rem;font-weight:700;color:var(--n3);display:flex;align-items:center;gap:5px}
+
+/* ── RESPONSIVE ── */
+@media(max-width:580px){
+  .ggrid,.dprev{grid-template-columns:1fr}
+  .f2{grid-template-columns:1fr 1fr}
+  .bgrid{grid-template-columns:1fr 1fr}
+  .hd-kpis{grid-template-columns:repeat(2,1fr)}
+  .hd-kpis .hd-kpi:last-child{grid-column:1/-1;text-align:center}
+  .csv-cols{grid-template-columns:1fr 1fr}
+}
+@media(max-width:360px){.f2{grid-template-columns:1fr}}
+
+/* ── PRINT ── */
+@media print{
+  .stepper,.prog,.ar,.tabs,.btn,.hd-badges,.hd-kpis,.csv-hero,.grille-dl{display:none!important}
+  .panel{display:block!important;padding:0}
+  .sc{break-inside:avoid}
+  .hd{background:#fff;color:#000}
+  .hd-title{color:#000}.hd-title em{color:var(--orange)}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ HEADER ═══ -->
+<header class="hd">
+  <div class="hd-court"></div>
+  <div class="hd-court2"></div>
+  <div class="hd-line"></div>
+  <div class="hd-inner">
+    <div class="hd-top">
+      <div class="hd-ball">🏀</div>
+      <div class="hd-texts">
+        <div class="hd-eyebrow">Outil pédagogique EPS</div>
+        <div class="hd-title">Enseignant d'EPS &mdash; <em>Tir Basket-ball</em></div>
+      </div>
+    </div>
+    <div class="hd-kpis">
+      <div class="hd-kpi"><div class="kv" id="kpi-j">0</div><div class="kl">Élèves saisis</div></div>
+      <div class="hd-kpi"><div class="kv" id="kpi-d">—</div><div class="kl">Diagnostic complet</div></div>
+      <div class="hd-kpi"><div class="kv" id="kpi-ng">—</div><div class="kl">Niveau moyen classe</div></div>
+    </div>
+  </div>
+  <div class="hd-badges">
+    <span class="bdg bdg-o">5 critères C1–C5</span>
+    <span class="bdg bdg-b">N1–N4 par critère</span>
+    <span class="bdg bdg-b">Diagnostic différencié</span>
+    <span class="bdg bdg-b">📴 Hors connexion</span>
+  </div>
+</header>
+
+<!-- PROGRESS -->
+<div class="prog">
+  <span id="prog-lbl" style="white-space:nowrap">Étape 1 / 5 — Saisie</span>
+  <div class="prog-track"><div class="prog-fill" id="prog-fill"></div></div>
+  <span id="prog-pct">20%</span>
+</div>
+
+<!-- STEPPER -->
+<nav class="stepper">
+  <button class="sbtn active" onclick="goTo(1)"><span class="snum">1</span><span class="slbl">Saisie</span></button>
+  <button class="sbtn" onclick="goTo(2)"><span class="snum">2</span><span class="slbl">Diagnostic</span></button>
+  <button class="sbtn" onclick="goTo(3)"><span class="snum">3</span><span class="slbl">Axes</span></button>
+  <button class="sbtn" onclick="goTo(4)"><span class="snum">4</span><span class="slbl">Paramétrage</span></button>
+  <button class="sbtn" onclick="goTo(5)"><span class="snum">5</span><span class="slbl">Planification</span></button>
+</nav>
+
+<!-- ═══ PANEL 1 — SAISIE ═══ -->
+<section class="panel active" id="p1">
+  <div class="ph">
+    <div class="ph-icon">📋</div>
+    <div>
+      <div class="ph-title">Saisie des données de classe</div>
+      <div class="ph-desc">Entrez les observations de tir de chaque élève depuis la grille de suivi.<br>Zones (proche, mi-distance, 3 pts) · Temps de jeu · Tirs pertinents (C5).</div>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" id="tab-m" onclick="switchTab('m')">✏️ Saisie manuelle</button>
+    <button class="tab-btn" id="tab-c" onclick="switchTab('c')">📂 Import CSV</button>
+  </div>
+
+  <!-- MANUEL -->
+  <div id="pane-m">
+    <div class="card">
+      <div class="card-t"><span class="dot"></span>Ajouter un élève</div>
+
+      <div class="fsect">👤 Identité</div>
+      <div class="fg" style="margin-bottom:6px">
+        <label id="lbl-f-nom" for="f-nom">Prénom / Nom</label>
+        <input type="text" id="f-nom" placeholder="Ex : Amine Bouchareb" autocomplete="off" style="max-width:360px">
+      </div>
+
+      <div class="fsect">🎯 Zone proche</div>
+      <div class="f2" style="max-width:480px">
+        <div class="fg">
+          <label id="lbl-f-p-ok" for="f-p-ok">Réussis <span class="hi" title="Paniers depuis la zone restrictive / sous le panier">?</span></label>
+          <input type="number" id="f-p-ok" min="0" placeholder="0">
+        </div>
+        <div class="fg">
+          <label id="lbl-f-p-tent" for="f-p-tent">Tentés</label>
+          <input type="number" id="f-p-tent" min="0" placeholder="0">
+        </div>
+      </div>
+
+      <div class="fsect">📐 Mi-distance</div>
+      <div class="f2" style="max-width:480px">
+        <div class="fg">
+          <label id="lbl-f-m-ok" for="f-m-ok">Réussis <span class="hi" title="Entre zone restrictive et ligne des 3 points">?</span></label>
+          <input type="number" id="f-m-ok" min="0" placeholder="0">
+        </div>
+        <div class="fg">
+          <label id="lbl-f-m-tent" for="f-m-tent">Tentés</label>
+          <input type="number" id="f-m-tent" min="0" placeholder="0">
+        </div>
+      </div>
+
+      <div class="fsect">🌟 3 points</div>
+      <div class="f2" style="max-width:480px">
+        <div class="fg">
+          <label id="lbl-f-t-ok" for="f-t-ok">Réussis</label>
+          <input type="number" id="f-t-ok" min="0" placeholder="0">
+        </div>
+        <div class="fg">
+          <label id="lbl-f-t-tent" for="f-t-tent">Tentés</label>
+          <input type="number" id="f-t-tent" min="0" placeholder="0">
+        </div>
+      </div>
+
+      <div class="fsect">⏱️ Indicateurs de jeu</div>
+      <div class="f2" style="max-width:480px">
+        <div class="fg">
+          <label id="lbl-f-tps" for="f-tps">Temps de jeu (min) <span class="hi" title="Temps effectif de jeu observé">?</span></label>
+          <input type="number" id="f-tps" min="0" step="0.5" placeholder="10">
+        </div>
+        <div class="fg">
+          <label id="lbl-f-tp" for="f-tp">Tirs pertinents C5 <span class="hi" title="Hors note — indicateur qualitatif seulement">?</span></label>
+          <input type="number" id="f-tp" min="0" placeholder="0" class="c5">
+        </div>
+      </div>
+
+      <div class="al al-i" style="margin-top:12px;margin-bottom:0;font-size:.74rem">
+        💡 <strong>C5 (tirs pertinents)</strong> est un indicateur qualitatif <em>hors note</em>. Il oriente le type d'axe pédagogique mais n'entre pas dans la note finale.
+      </div>
+
+      <div class="ar">
+        <button class="btn btn-p" onclick="ajouterJoueur()">+ Ajouter l'élève</button>
+        <button class="btn btn-g btn-sm" onclick="reinitForm()">✕ Effacer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CSV — interface professionnelle -->
+  <div id="pane-c" style="display:none">
+
+    <!-- Bouton télécharger la grille -->
+    <div class="grille-dl">
+      <div class="grille-dl-icon">📥</div>
+      <div class="grille-dl-body">
+        <div class="grille-dl-title">Télécharger la grille d'évaluation vierge</div>
+        <div class="grille-dl-sub">Fichier CSV pré-formaté — à remplir puis réimporter ici</div>
+      </div>
+      <button class="grille-dl-btn" onclick="telechargerGrille()">⬇ Télécharger CSV</button>
+    </div>
+
+    <!-- Zone import hero -->
+    <div class="csv-hero">
+      <div class="csv-hero-top">
+        <div class="csv-hero-icon">📂</div>
+        <div>
+          <div class="csv-hero-title">Importer la grille remplie</div>
+          <div class="csv-hero-sub">CSV · virgule ou point-virgule · UTF-8</div>
+        </div>
+      </div>
+
+      <!-- Drop zone -->
+      <div class="csv-drop" id="csv-drop" onclick="document.getElementById('csv-file-real').click()"
+           ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)">
+        <span class="csv-drop-icon">🗂️</span>
+        <div class="csv-drop-text">
+          <strong>Glissez-déposez votre fichier ici</strong>
+          ou cliquez pour parcourir
+        </div>
+        <button class="csv-drop-btn" onclick="event.stopPropagation();document.getElementById('csv-file-real').click()">
+          📁 Parcourir les fichiers
+        </button>
+        <input type="file" id="csv-file-real" accept=".csv,.txt" onchange="importCSV(event)">
+      </div>
+
+      <!-- Status -->
+      <div class="csv-status" id="csv-status"></div>
+
+      <!-- Format attendu -->
+      <div class="csv-format">
+        <div class="csv-format-title">📋 Colonnes attendues dans le fichier</div>
+        <div class="csv-cols">
+          <div class="csv-col"><span class="csv-col-dot req"></span><code style="font-size:.7rem">nom</code></div>
+          <div class="csv-col"><span class="csv-col-dot req"></span><code style="font-size:.7rem">prenom</code></div>
+          <div class="csv-col"><span class="csv-col-dot req"></span><code style="font-size:.7rem">proches_reussis</code></div>
+          <div class="csv-col"><span class="csv-col-dot req"></span><code style="font-size:.7rem">proches_tentes</code></div>
+          <div class="csv-col"><span class="csv-col-dot req"></span><code style="font-size:.7rem">mid_reussis</code></div>
+          <div class="csv-col"><span class="csv-col-dot req"></span><code style="font-size:.7rem">mid_tentes</code></div>
+          <div class="csv-col"><span class="csv-col-dot req"></span><code style="font-size:.7rem">3pts_reussis</code></div>
+          <div class="csv-col"><span class="csv-col-dot req"></span><code style="font-size:.7rem">3pts_tentes</code></div>
+          <div class="csv-col"><span class="csv-col-dot req"></span><code style="font-size:.7rem">temps_jeu_min</code></div>
+          <div class="csv-col"><span class="csv-col-dot opt"></span><code style="font-size:.7rem">tirs_pertinents_obs</code></div>
+        </div>
+        <div style="margin-top:8px;font-size:.66rem;color:#93B4D8;display:flex;gap:16px">
+          <span><span style="color:#60A5FA">●</span> Obligatoire</span>
+          <span><span style="color:#F59E0B">●</span> Optionnel (C5)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Liste élèves -->
+  <div id="jwrap" style="display:none">
+    <div class="card">
+      <div class="card-t">
+        <span class="dot"></span>Élèves saisis
+        <span style="background:var(--blue-bright);color:#fff;border-radius:20px;padding:1px 8px;font-size:.68rem" id="nb-j">0</span>
+      </div>
+      <div class="jlist" id="jlist"></div>
+    </div>
+    <div class="ar">
+      <button class="btn btn-p" onclick="goTo(2)">Lancer le diagnostic →</button>
+      <button class="btn btn-g btn-sm" onclick="viderJoueurs()">🗑 Vider</button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PANEL 2 — DIAGNOSTIC ═══ -->
+<section class="panel" id="p2">
+  <div class="ph">
+    <div class="ph-icon">📊</div>
+    <div>
+      <div class="ph-title">Diagnostic de classe</div>
+      <div class="ph-desc">Calcul automatique de C1 (TRP), C2 (TRMD), C3 (IVT), C4 (SP) et C5 (TTP, hors note).<br>Chaque élève est positionné N1→N4 et assigné à un groupe de besoin.</div>
+    </div>
+  </div>
+  <div class="leg">
+    <div class="li"><span class="ld" style="background:var(--n1)"></span><span style="color:var(--n1)">N1 Débutant</span></div>
+    <div class="li"><span class="ld" style="background:var(--n2)"></span><span style="color:var(--n2)">N2 En construction</span></div>
+    <div class="li"><span class="ld" style="background:var(--n3)"></span><span style="color:var(--n3)">N3 Maîtrisé</span></div>
+    <div class="li"><span class="ld" style="background:var(--n4)"></span><span style="color:var(--n4)">N4 Expert</span></div>
+  </div>
+  <div class="card" style="margin-bottom:14px">
+    <div class="card-t"><span class="dot"></span>Seuils de niveau</div>
+    <div class="seuils-grid">
+      <div class="seuil-box" style="border-color:var(--n1m)"><strong>C1 — TRP (zone proche)</strong>N1&lt;30% · N2 30–49% · N3 50–69% · N4≥70%</div>
+      <div class="seuil-box" style="border-color:var(--n2m)"><strong>C2 — TRMD (mi-distance)</strong>N1&lt;20% · N2 20–34% · N3 35–49% · N4≥50%</div>
+      <div class="seuil-box" style="border-color:var(--n3m)"><strong>C3 — IVT (tirs/min)</strong>N1&lt;0,5 · N2 0,5–0,9 · N3 1,0–1,5 · N4&gt;1,5</div>
+      <div class="seuil-box" style="border-color:var(--n4m)"><strong>C4 — SP (score pondéré) <span class="hi" title="Pondération interne à l'outil (proche ×1, mi-distance ×1,5, 3 points ×2) à but pédagogique uniquement — ne correspond PAS au barème officiel du basket-ball (2 et 3 points).">?</span></strong>N1&lt;4 · N2 4–8 · N3 9–15 · N4≥16</div>
+      <div class="seuil-box c5"><strong>C5 — TTP ⚠️ Hors note</strong>N1&lt;40% · N2 40–59% · N3 60–79% · N4≥80%</div>
+    </div>
+  </div>
+  <div class="al al-i" style="font-size:.76rem">
+    ℹ️ <strong>C5 (TTP) est hors note</strong> — oriente le type d'axe pédagogique uniquement.<br>
+    ⚠️ <strong>C4 (SP) — la pondération 1 / 1,5 / 2 points est un indicateur pédagogique interne à cet outil</strong> (proche ×1, mi-distance ×1,5, 3 points ×2) et ne correspond PAS au barème officiel du basket-ball (2 points / 3 points). Elle sert uniquement à valoriser la diversification des zones de tir.<br>
+    Niveau global = (C1 + C2 + C3 + C4) ÷ 4. Chaque cellule affiche le niveau + la valeur brute calculée.
+  </div>
+  <div id="diag-content"><div class="al al-w">⚠️ Aucun élève saisi. Revenez à l'étape 1.</div></div>
+</section>
+
+<!-- ═══ PANEL 3 — AXES ═══ -->
+<section class="panel" id="p3">
+  <div class="ph">
+    <div class="ph-icon">🎯</div>
+    <div>
+      <div class="ph-title">Sélection des axes de contenu</div>
+      <div class="ph-desc">6 axes extraits du référentiel, triés par pourcentage de lacune dans votre classe.<br>Sélectionnez <strong>2 à 4 axes</strong> — l'orientation est guidée par le croisement C5.</div>
+    </div>
+  </div>
+  <div class="axe-counter">🏆 Axes sélectionnés : <strong id="axe-count">0</strong> (2 à 4 requis)</div>
+  <div id="axes-list"></div>
+  <div class="ar"><button class="btn btn-p" onclick="goTo(4)">Paramétrer le cycle →</button></div>
+</section>
+
+<!-- ═══ PANEL 4 — PARAMÉTRAGE ═══ -->
+<section class="panel" id="p4">
+  <div class="ph">
+    <div class="ph-icon">⚙️</div>
+    <div>
+      <div class="ph-title">Paramétrage du cycle</div>
+      <div class="ph-desc">Définissez le volume du cycle. La répartition des groupes A/B/C est calculée automatiquement depuis le diagnostic.</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-t"><span class="dot"></span>Volume du cycle</div>
+    <div class="slwrap">
+      <div class="slrow">
+        <span>Nombre de séances</span>
+        <span><span class="slval" id="sl-val">8</span> <span style="font-size:.68rem;color:var(--slate)">séances</span></span>
+      </div>
+      <input type="range" min="6" max="10" value="8" id="nb-s" oninput="updateSlider(this.value)">
+      <div class="slmarks">
+        <span>6 min</span><span>7</span><span>8 <em style="font-size:.62rem;color:var(--blue-bright)">(recommandé)</em></span><span>9</span><span>10 max</span>
+      </div>
+    </div>
+    <div class="card-t" style="margin-top:10px"><span class="dot"></span>Répartition de la classe</div>
+    <div class="dprev" id="dprev"></div>
+  </div>
+  <div class="card">
+    <div class="card-t"><span class="dot"></span>Axes retenus</div>
+    <div id="axes-recap" style="font-size:.8rem;color:var(--slate)">Aucun axe sélectionné.</div>
+  </div>
+  <div class="al al-ok" style="font-size:.76rem">
+    ✅ <strong>Conseil pédagogique</strong> : Pour 8 séances avec 2 axes, chaque axe dispose de 4 séances (Découverte → Développement × 2 → Consolidation).
+  </div>
+  <div class="ar"><button class="btn btn-p" onclick="genererPlan()">Générer la planification →</button></div>
+</section>
+
+<!-- ═══ PANEL 5 — PLANIFICATION ═══ -->
+<section class="panel" id="p5">
+  <div class="ph">
+    <div class="ph-icon">📅</div>
+    <div>
+      <div class="ph-title">Planification différenciée du cycle</div>
+      <div class="ph-desc">
+        <span style="color:var(--n1);font-weight:700">■ Groupe A (N1 Débutant)</span> &nbsp;
+        <span style="color:var(--n2);font-weight:700">■ Groupe B (N2 Construction)</span> &nbsp;
+        <span style="color:var(--n3);font-weight:700">■ Groupe C (N3/N4 Maîtrisé)</span><br>
+        Situation d'apprentissage · Consigne · Critère de réussite par séance.
+      </div>
+    </div>
+  </div>
+  <div id="plan-content"><div class="al al-w">⚠️ Complétez les étapes 1 à 4 d'abord.</div></div>
+</section>
+
+<script>
+"use strict";
+
+/* ── NIVEAUX ── */
+function nC1(v){return v===null?1:v<30?1:v<50?2:v<70?3:4}
+function nC2(v){return v===null?1:v<20?1:v<35?2:v<50?3:4}
+function nC3(v){return v===null?1:v<0.5?1:v<1?2:v<=1.5?3:4}
+function nC4(v){return v<4?1:v<9?2:v<16?3:4}
+function nC5(v){return v===null?null:v<40?1:v<60?2:v<80?3:4}
+function nG(a,b,c,d){return(a+b+c+d)/4}
+/* nivProfil(nc1,nc2,nc3,nc4,ng) détermine le niveau de profil global (1=N1 Débutant à
+   4=N4 Expert) d'un élève selon la même logique de majorité que groupeEleve() : un élève
+   majoritairement bas (≥3 critères en N1) ou majoritairement haut (≥3 critères en N4) ne doit
+   pas être déclassé/reclassé par un seul critère extrême qui tire sa moyenne ng dans l'autre
+   sens. Sans cette règle, un élève à 3 critères N1 + 1 critère N4 (ng=1.75) se retrouvait compté
+   en "N2 En construction" alors qu'il est en réalité très majoritairement débutant — c'est ce qui
+   pouvait faire apparaître 0 élève dans la case "N1 Débutant" du diagnostic malgré un profil de
+   classe très hétérogène. Pour les niveaux intermédiaires (ni majorité N1 ni majorité N4), on
+   retombe sur la moyenne ng comme auparavant (ng<1.5→N1, ng<2.5→N2, ng<3.5→N3, sinon→N4). */
+function nivProfil(nc1,nc2,nc3,nc4,ng){
+  var nbN1=(nc1===1?1:0)+(nc2===1?1:0)+(nc3===1?1:0)+(nc4===1?1:0);
+  if(nbN1>=3)return 1;
+  var nbN4=(nc1===4?1:0)+(nc2===4?1:0)+(nc3===4?1:0)+(nc4===4?1:0);
+  if(nbN4>=3)return 4;
+  return ng<1.5?1:(ng<2.5?2:(ng<3.5?3:4));
+}
+function pLbl(niv){return["","Débutant","En construction","Maîtrisé","Expert"][niv]||"Débutant"}
+function pCls(niv){return["","prf-n1","prf-n2","prf-n3","prf-n4"][niv]||"prf-n1"}
+function cCls(n){return["","cn1","cn2","cn3","cn4"][n]||"cn1"}
+function nLbl(n){return["","N1","N2","N3","N4"][n]||"N1"}
+/* groupeEleve(c) détermine le Groupe A/B/C d'un élève en tenant compte, en plus de la moyenne
+   ng, du nombre de critères principaux (nc1..nc4) à un niveau extrême :
+   - Groupe A : au moins 3 des 4 critères sont en N1 (===1), même si la moyenne ng atteint ou
+     dépasse 1.5 à cause d'un seul critère plus élevé qui "tire" la moyenne vers le haut — un
+     profil ainsi majoritairement N1 ne doit pas échapper au Groupe A sous prétexte que sa
+     moyenne franchit le seuil.
+   - Groupe C : symétriquement, au moins 3 des 4 critères sont en N3 ou N4 (>=3) — cohérent avec
+     le libellé "Groupe C — N3/N4 Maîtrisé" déjà utilisé partout ailleurs dans l'outil.
+   - Cas intermédiaires (ni A ni C par cette règle) : on retombe sur la moyenne ng comme
+     auparavant (ng<1.5 → A, ng<2.5 → B, sinon → C). */
+function groupeEleve(c){
+  var nbN1=(c.nc1===1?1:0)+(c.nc2===1?1:0)+(c.nc3===1?1:0)+(c.nc4===1?1:0);
+  if(nbN1>=3)return"A";
+  var nbN34=(c.nc1>=3?1:0)+(c.nc2>=3?1:0)+(c.nc3>=3?1:0)+(c.nc4>=3?1:0);
+  if(nbN34>=3)return"C";
+  return c.ng<1.5?"A":(c.ng<2.5?"B":"C");
+}
+
+function croisC5(nc1,nc2,nc3,nc5){
+  if(nc5===null)return{type:"TECHNIQUE",txt:"C5 non renseigné — axe orienté sur le geste par défaut."};
+  if(nc1<=1&&nc5>=3)return{type:"TECHNIQUE",txt:"C1 bas + C5 élevé : l'élève choisit bien ses situations mais manque de maîtrise technique du geste proche. → Ateliers en isolation (lay-up des deux mains, finition sur plot)."};
+  if(nc1<=1&&nc5<=1)return{type:"DÉCISION",txt:"C1 bas + C5 bas : ni le geste ni la logique de tir ne sont intégrés. Profil débutant complet. → Situation simplifiée 1c0 puis 1c1 passif, travail lecture défense."};
+  if(nc2<=1&&nc3>=3)return{type:"ZONE",txt:"C2 bas + C3 élevé : l'élève tente de nombreux tirs à mi-distance mais le geste manque de maîtrise. → Contraindre la zone, tir proche interdit, mécanique en faible opposition."};
+  if(nc3<=1&&nc5>=3)return{type:"ENGAGEMENT",txt:"C3 très bas + C5 élevé : l'élève lit bien le jeu mais n'initie pas offensivement. Profil passeur. → Tir obligatoire si balle reçue en zone offensive."};
+  return{type:"TECHNIQUE",txt:"Profil mixte — priorité au développement technique du geste dans la zone la plus déficitaire."};
+}
+function lacune(nc1,nc2,nc3,nc4){
+  return[{c:"C1 (TRP — zone proche)",n:nc1},{c:"C2 (TRMD — mi-distance)",n:nc2},{c:"C3 (IVT — volume de tir)",n:nc3},{c:"C4 (SP — score pondéré)",n:nc4}].sort((a,b)=>a.n-b.n)[0];
+}
+
+/* Chaque axe porte désormais un seuil de passage numérique (seuilPassage) qui formalise
+   le niveau cible déjà décrit en texte dans "cible"/"pi". Un élève est considéré en lacune
+   sur un axe s'il n'a pas encore atteint ce niveau. Pour A1–A5 (axes N1→N2), seuilPassage=2.
+   Pour A6 (axe de consolidation N2→N3, réservé aux élèves déjà N2), seuilPassage=3.
+
+   Chaque axe porte aussi désormais trois VERSIONS de son contenu pédagogique (versions.decouverte/
+   developpement/consolidation), chacune déclinée par groupe de niveau (A/B/C). Pour chaque groupe,
+   la situation d'apprentissage est entièrement détaillée en 5 éléments distincts, rédigés de
+   façon simple, claire et professionnelle :
+   - tache       : la situation/exercice proposé (le "quoi").
+   - consigne    : l'instruction donnée à l'élève avant l'action (le "comment s'y prendre").
+   - realisation : le critère de réalisation — ce que l'élève doit FAIRE concrètement pour
+                   exécuter correctement la tâche (repères techniques/procéduraux observables).
+   - reussite    : le critère de réussite — l'indicateur chiffré permettant de vérifier
+                   l'atteinte de l'objectif (ex. "3 lay-ups sur 5").
+   - regulation  : les variables de régulation — les adaptations possibles pour simplifier
+                   (élève en difficulté) ou complexifier (élève en réussite) la tâche.
+   Les trois versions se distinguent par le niveau d'opposition et l'exigence du critère de
+   réussite :
+   - decouverte    : opposition passive (ou absente), critère le plus accessible.
+   - developpement : opposition semi-active, critère plus exigeant que decouverte.
+   - consolidation : opposition active / jeu réel, critère le plus exigeant.
+   renderPlan() choisit la version à afficher selon la phase réellement calculée pour chaque
+   séance, au lieu d'un texte unique répété sur toutes les séances de l'axe. */
+var AXES=[
+  {id:"A1",titre:"Maîtrise du geste de finition en zone proche (C1)",type:"TECHNIQUE",codeC:"C1",seuilPassage:2,cible:"C1 N1 (<30%) → N2 (30–49%)",desc:"Lay-up des deux mains, finition sur plot, tir à bout portant sans défenseur. Travail des appuis, équilibre, placement des mains.",sa:"SA1 : 1c0 — Lay-up dominant puis non-dominant depuis le poste bas (5 tentatives). Critère : 3/5 en appuis contrôlés.",pi:"C1 ≥ 30% (N2)",
+    versions:{
+      decouverte:{A:{tache:"Lay-up dominant en 1 contre 0, sans défenseur, 10 tentatives depuis la raquette.",consigne:"Poser l'appui intérieur juste avant de lever la balle ; protéger le ballon des deux mains pendant l'élan.",realisation:"Dernier appui sur le pied opposé à la main de tir ; le genou et le bras se lèvent ensemble ; la balle est relâchée en hauteur, près de la planche.",reussite:"Réussir au moins 2 lay-ups sur 5 avec une chaîne d'appuis identifiable (même en cas d'échec au tir).",regulation:"Pour simplifier : rapprocher le point de départ du panier (1 m), autoriser un appui supplémentaire. Pour complexifier : reculer le départ à 3-4 m, imposer un dribble d'approche."},B:{tache:"Lay-up dos au panier avec détour de plot, sans opposition.",consigne:"Contourner le plot avant d'attaquer le panier ; viser l'angle supérieur du carré du panneau.",realisation:"Le regard se fixe sur la cible avant le dernier appui ; le dribble contourne franchement le plot sans ralentir excessivement.",reussite:"Réussir au moins 2 lay-ups sur 5 en situation guidée (plot fixe).",regulation:"Pour simplifier : rapprocher le plot du panier. Pour complexifier : ajouter un second plot ou varier le point de départ à chaque tentative."},C:{tache:"Lay-up non-dominant en 1 contre 0, défenseur statique en lecture passive.",consigne:"Choisir le bon côté du panier selon la position du défenseur ; finir uniquement de la main extérieure à celui-ci.",realisation:"L'élève identifie la position du défenseur avant de s'engager ; le ballon ne change pas de main pendant l'élan final.",reussite:"Réussir au moins 2 lay-ups sur 5, des deux mains confondues.",regulation:"Pour simplifier : autoriser la main dominante sur tous les essais. Pour complexifier : ajouter un déplacement latéral du défenseur avant l'attaque du panier."}},
+      developpement:{A:{tache:"Lay-up dominant en 1 contre 0 depuis la raquette, 10 tentatives.",consigne:"Poser l'appui intérieur avant de lever la balle ; accélérer sur le dernier pas avant l'impulsion.",realisation:"Rythme d'appuis régulier (pas-pas-saut) ; le bras de tir s'étend complètement à la libération du ballon.",reussite:"Réussir au moins 3 lay-ups sur 5 avec appuis contrôlés.",regulation:"Pour simplifier : réduire la distance d'élan. Pour complexifier : départ en dribble de course (2-3 appuis avant l'attaque)."},B:{tache:"Lay-up dos au panier avec détour de plot, défenseur passif (statique, sans contestation).",consigne:"Viser l'angle supérieur du carré du panneau ; garder le ballon haut et protégé près du défenseur.",realisation:"Le buste reste orienté vers le panier pendant le contournement ; le tir est armé avant l'arrivée sous le cercle.",reussite:"Réussir au moins 3 lay-ups sur 5 en situation semi-active.",regulation:"Pour simplifier : défenseur immobile et éloigné (1,5 m). Pour complexifier : défenseur qui se déplace latéralement sans contact."},C:{tache:"Lay-up non-dominant en 2 contre 1.",consigne:"Choisir le bon côté selon la position du défenseur ; protéger le ballon de l'épaule opposée.",realisation:"Lecture de la trajectoire du défenseur avant le dernier dribble ; changement de main anticipé si nécessaire.",reussite:"Réussir au moins 3 lay-ups sur 5 en 2 contre 1.",regulation:"Pour simplifier : défenseur en retard imposé (parti après 1 seconde). Pour complexifier : défenseur actif dès le départ, ajouter un second défenseur passif en aide."}},
+      consolidation:{A:{tache:"Lay-up dominant en 1 contre 1 réel, intensité modérée.",consigne:"Poser l'appui intérieur avant de lever la balle, même sous la pression d'un défenseur réel.",realisation:"L'élève garde son équilibre malgré le contact ou la proximité du défenseur ; la balle reste protégée jusqu'à la libération.",reussite:"Réussir au moins 4 lay-ups sur 5 avec appuis contrôlés en opposition réelle.",regulation:"Pour simplifier : limiter le défenseur à la contestation visuelle (sans les bras). Pour complexifier : défenseur autorisé à gêner avec les bras (sans contact)."},B:{tache:"Lay-up dos au panier en 2 contre 1 réel.",consigne:"Viser l'angle supérieur du carré malgré l'opposition ; accélérer dès le contournement du plot/défenseur.",realisation:"Le tir est armé avant le contact avec le défenseur ; la trajectoire reste directe vers le panier.",reussite:"Réussir au moins 4 lay-ups sur 5 en 2 contre 1.",regulation:"Pour simplifier : réduire l'espace de jeu pour limiter les déplacements du défenseur. Pour complexifier : ajouter un temps limite de 3 secondes pour conclure l'action."},C:{tache:"Lay-up non-dominant en 2 contre 2 réel, à pleine vitesse.",consigne:"Choisir le bon côté selon la position du défenseur, à pleine vitesse de jeu.",realisation:"Décision prise en moins d'une seconde ; le geste reste fluide malgré la vitesse d'exécution.",reussite:"Réussir au moins 3 lay-ups sur 5 en jeu réel (2 contre 2).",regulation:"Pour simplifier : autoriser un temps d'arrêt avant l'attaque du panier. Pour complexifier : enchaîner deux actions consécutives sans interruption (transition défense-attaque)."}}
+    }},
+  {id:"A2",titre:"Entrée dans le tir à mi-distance (C2)",type:"TECHNIQUE",codeC:"C2",seuilPassage:2,cible:"C2 N1 → N2 (20–34%)",desc:"Mécanique du tir depuis la zone intermédiaire en faible opposition. Trajectoire parabolique, extension du bras, suivi de balle.",sa:"SA2 : Tir en arrivée de dribble depuis les côtés en zone MD, défenseur passif. Critère : 2/5 avec trajectoire haute.",pi:"C2 ≥ 20% (N2)",
+    versions:{
+      decouverte:{A:{tache:"Tir statique depuis la ligne des lancers-francs, sans défenseur, 10 tentatives.",consigne:"Étendre complètement le bras de tir et terminer le geste poignet fléchi vers le bas (effet de « cloche »).",realisation:"Les pieds sont alignés vers le panier avant le tir ; le coude reste sous le ballon pendant toute la phase de poussée.",reussite:"Obtenir une trajectoire haute (angle supérieur à 45°) sur au moins 3 tirs sur 5.",regulation:"Pour simplifier : rapprocher la ligne de tir de 1 à 2 m. Pour complexifier : imposer un tir en moins de 2 secondes après réception."},B:{tache:"Tir en position fixe depuis les côtés du terrain, sans opposition.",consigne:"Marquer un arrêt en deux temps avant de déclencher le tir.",realisation:"Réception du ballon pieds décalés, puis alignement avant l'impulsion ; le regard reste fixé sur la cible durant tout le geste.",reussite:"Réussir au moins 2 tirs sur 5 depuis une position fixe.",regulation:"Pour simplifier : autoriser un troisième appui avant le tir. Pour complexifier : varier l'angle de réception (passes de différents côtés)."},C:{tache:"Tir en arrivée de dribble en zone mi-distance, défenseur statique et immobile (lecture passive).",consigne:"Refuser le tir proche si la zone mi-distance est libre.",realisation:"L'élève balaie la zone du regard avant d'engager le dribble ; l'arrêt avant tir reste contrôlé malgré la vitesse d'approche.",reussite:"Réussir au moins 2 tirs sur 5 en situation guidée.",regulation:"Pour simplifier : matérialiser au sol la zone mi-distance à privilégier. Pour complexifier : réduire le temps de décision (signal imposant le tir avant 3 secondes)."}},
+      developpement:{A:{tache:"Tir statique depuis la ligne des lancers-francs, sans défenseur.",consigne:"Étendre le bras et terminer le geste poignet fléchi (effet de cloche), même en série.",realisation:"Régularité du geste répété : même rythme de poussée, même point de relâcher à chaque tentative.",reussite:"Obtenir une trajectoire haute sur au moins 4 tirs sur 5.",regulation:"Pour simplifier : réduire le nombre de tirs consécutifs exigés. Pour complexifier : alterner les zones de tir (gauche/centre/droite) entre chaque tentative."},B:{tache:"Tir en arrivée de dribble depuis les côtés, défenseur passif (statique, sans contestation).",consigne:"Marquer un arrêt en deux temps avant de tirer, même en présence d'un défenseur.",realisation:"L'élan du dribble est cassé avant l'arrêt ; les épaules restent perpendiculaires au panier au moment du tir.",reussite:"Réussir au moins 2 tirs sur 5 depuis chaque côté du terrain.",regulation:"Pour simplifier : défenseur statique et éloigné. Pour complexifier : défenseur qui se rapproche progressivement sans contester activement."},C:{tache:"2 contre 2 avec zone mi-distance privilégiée.",consigne:"Refuser le tir proche si la zone mi-distance est libre.",realisation:"Lecture rapide de la défense avant le choix de zone ; le tir est pris en équilibre, pas en course.",reussite:"Marquer au moins 1 panier en zone mi-distance par match de 5 minutes.",regulation:"Pour simplifier : bonifier le score pour tout tir tenté en mi-distance, même manqué. Pour complexifier : limiter le nombre de tirs proches autorisés par possession."}},
+      consolidation:{A:{tache:"Tir en mouvement après réception d'une passe, défenseur semi-actif qui ferme l'espace.",consigne:"Étendre le bras et terminer le geste en cloche, même sous la pression d'un défenseur qui s'approche.",realisation:"Le tir est armé dès la réception (pas de dribble superflu) ; l'équilibre est conservé malgré la gêne du défenseur.",reussite:"Obtenir une trajectoire haute sur au moins 4 tirs sur 5 en opposition.",regulation:"Pour simplifier : limiter le défenseur à la contestation visuelle. Pour complexifier : défenseur autorisé à fermer l'espace avec déplacement latéral actif."},B:{tache:"Tir en arrivée de dribble en 1 contre 1 réel.",consigne:"Marquer un arrêt en deux temps malgré l'opposition du défenseur.",realisation:"Changement de rythme avant l'arrêt pour créer l'espace ; le tir est pris dès que l'équilibre est retrouvé.",reussite:"Réussir au moins 3 tirs sur 5 depuis chaque côté, en 1 contre 1.",regulation:"Pour simplifier : imposer une distance minimale de contestation du défenseur (1 m). Pour complexifier : autoriser le défenseur à varier sa distance de marquage."},C:{tache:"3 contre 3 réel avec zone mi-distance valorisée.",consigne:"Refuser le tir proche si la zone mi-distance est libre, à pleine intensité.",realisation:"Décision de tir prise en moins d'une seconde après la réception ; le placement est anticipé avant de recevoir le ballon.",reussite:"Marquer au moins 2 paniers en zone mi-distance par match de 5 minutes.",regulation:"Pour simplifier : augmenter la bonification du tir mi-distance dans le score. Pour complexifier : réduire le temps de possession autorisé par équipe (12 secondes)."}}
+    }},
+  {id:"A3",titre:"Développement de l'engagement offensif (C3)",type:"ENGAGEMENT",codeC:"C3",seuilPassage:2,cible:"C3 N1 (<0,5/min) → N2 (0,5–0,9/min)",desc:"Tir obligatoire si balle reçue en zone offensive. Valoriser chaque tentative dans le débriefing. 3c3 avec zone de tir obligatoire.",sa:"SA3 : 3c3 — réception en zone avant impose tentative dans les 3 s. Critère : ≥ 1 tir/2 min.",pi:"C3 ≥ 0,5 tir/min (N2)",
+    versions:{
+      decouverte:{A:{tache:"2 contre 1 — tir obligatoire dans les 3 secondes si la balle est reçue en zone avant, défenseur passif.",consigne:"Ne jamais rendre le ballon sans avoir tenté un tir.",realisation:"L'élève évalue sa position dès la réception (en 1 seconde) plutôt que d'attendre un meilleur appui.",reussite:"Tenter au moins 1 tir toutes les 2 minutes de jeu.",regulation:"Pour simplifier : élargir la zone avant (tir autorisé plus loin du panier). Pour complexifier : réduire le délai de décision à 2 secondes."},B:{tache:"2 contre 2 — chaque joueur doit tirer au moins une fois par période, défenseur passif.",consigne:"Chercher activement une position de réception avant de recevoir le ballon.",realisation:"Déplacement permanent pour se rendre disponible ; appel de balle visible (bras levé, démarquage).",reussite:"Indice de volume de tir (IVT) ≥ 0,3 sur la période.",regulation:"Pour simplifier : imposer une passe obligatoire à chaque joueur avant le tir final. Pour complexifier : limiter le nombre de dribbles autorisés avant le tir."},C:{tache:"3 contre 3 avec comptage de l'IVT par un observateur, opposition modérée.",consigne:"Être le leader offensif de son équipe sur la période.",realisation:"L'élève multiplie les appels de balle et les prises d'initiative (dribble, tir, percussion).",reussite:"IVT ≥ 0,7 sur la période.",regulation:"Pour simplifier : accorder un point bonus pour chaque tentative de tir, indépendamment de la réussite. Pour complexifier : limiter la possession à 2 passes maximum avant le tir."}},
+      developpement:{A:{tache:"3 contre 3 — tir obligatoire dans les 3 secondes si la balle est reçue en zone avant.",consigne:"Ne jamais rendre le ballon sans avoir tenté un tir.",realisation:"Décision de tir prise dès la réception, sans hésitation ni recherche d'un appui supplémentaire.",reussite:"Tenter au moins 1 tir par minute de jeu.",regulation:"Pour simplifier : autoriser un délai de décision de 5 secondes. Pour complexifier : réduire le délai à 2 secondes et élargir la zone de déclenchement obligatoire."},B:{tache:"3 contre 3 — chaque joueur doit tirer au moins 2 fois par période.",consigne:"Chercher activement une position de réception avant de recevoir le ballon.",realisation:"Alternance des courses de démarquage (vers le ballon, en profondeur) pour multiplier les occasions de réception.",reussite:"IVT ≥ 0,5 sur la période.",regulation:"Pour simplifier : réduire ponctuellement le nombre de défenseurs actifs (2 contre 3). Pour complexifier : ne comptabiliser que les tirs pris en moins de 2 secondes après réception."},C:{tache:"4 contre 4 libre avec comptage de l'IVT par un observateur.",consigne:"Être le leader offensif de son équipe en toute situation.",realisation:"L'élève prend des initiatives variées : tir, prise de risque en dribble, percussion vers le panier.",reussite:"IVT ≥ 1,0 sur la période.",regulation:"Pour simplifier : bonifier les tentatives de tir dans le décompte du score d'équipe. Pour complexifier : limiter le temps de possession collectif (chronomètre d'attaque)."}},
+      consolidation:{A:{tache:"3 contre 3 réel — tir obligatoire dans les 3 secondes si la balle est reçue en zone avant, opposition réelle.",consigne:"Ne jamais rendre le ballon sans avoir tenté un tir, même sous pression.",realisation:"La décision de tir reste rapide malgré la gêne du défenseur ; pas de recul ni d'hésitation au moment de la réception.",reussite:"Tenter au moins 1 tir par minute en jeu réel.",regulation:"Pour simplifier : limiter l'intensité défensive autorisée (contestation sans contact). Pour complexifier : opposition à pleine intensité avec contact limité réglementaire."},B:{tache:"4 contre 4 réel — chaque joueur doit tirer au moins 3 fois par période.",consigne:"Chercher activement une position de réception avant de recevoir le ballon, à pleine intensité.",realisation:"Les courses de démarquage s'enchaînent sans temps mort ; l'élève reste actif même loin du ballon.",reussite:"IVT ≥ 0,7 sur la période.",regulation:"Pour simplifier : autoriser une zone de réception privilégiée moins défendue. Pour complexifier : défense individuelle stricte sur chaque attaquant (homme à homme)."},C:{tache:"Match réel (4 contre 4 ou 5 contre 5 selon l'effectif) avec comptage de l'IVT.",consigne:"Être le leader offensif de son équipe en toute situation de jeu.",realisation:"L'élève multiplie les prises d'initiative offensive sans perdre la lecture collective du jeu.",reussite:"IVT ≥ 1,3 sur la période.",regulation:"Pour simplifier : augmenter le temps de jeu accordé à l'élève (rotation plus longue). Pour complexifier : imposer une passe obligatoire à un coéquipier avant tout tir personnel sur certaines possessions."}}
+    }},
+  {id:"A4",titre:"Diversification des zones — score pondéré (C4)",type:"ZONE",codeC:"C4",seuilPassage:2,cible:"C4 N1 (SP<4) → N2 (4 ≤ SP < 9)",desc:"Situations de jeu contraignant plusieurs zones. Défense en zone restrictive, valorisation des paniers à mi-distance dans le score.",sa:"SA4 : Match à score pondéré (proche×1, MD×1,5, 3pts×2). Critère : ≥1 tir MD par match.",pi:"SP ≥ 4 (N2)",
+    versions:{
+      decouverte:{A:{tache:"Exercice guidé à score pondéré simplifié, sans opposition : zone proche = 1 point, mi-distance = 2 points.",consigne:"Préférer un tir en mi-distance si la position est favorable (espace libre, équilibre).",realisation:"L'élève évalue sa position avant de choisir sa zone de tir plutôt que de tirer par automatisme depuis la zone proche.",reussite:"Tenter au moins 1 tir en mi-distance sur la période.",regulation:"Pour simplifier : matérialiser au sol les zones de score pour faciliter le repérage. Pour complexifier : réduire le temps de réflexion avant le tir."},B:{tache:"Jeu à thème avec défense passive en zone restrictive (tir proche interdit).",consigne:"S'éloigner volontairement de la raquette pour se rendre disponible en mi-distance.",realisation:"L'élève se déplace activement vers l'extérieur de la raquette dès que le ballon entre en zone offensive.",reussite:"Obtenir un score pondéré (SP) ≥ 2 sur la période.",regulation:"Pour simplifier : élargir la zone restrictive interdite pour faciliter le repérage. Pour complexifier : réduire la zone autorisée pour les tirs valorisés."},C:{tache:"Match à score pondéré simplifié, opposition modérée.",consigne:"Optimiser son score pondéré individuel sur l'ensemble de la période.",realisation:"L'élève adapte son choix de zone selon la position de la défense et la valeur du tir associée.",reussite:"Obtenir un score pondéré (SP) ≥ 5 sur la période.",regulation:"Pour simplifier : augmenter la valeur des tirs mi-distance dans le barème. Pour complexifier : introduire la zone à 3 points dans le barème pondéré."}},
+      developpement:{A:{tache:"Match à score pondéré simplifié : zone proche = 1 point, mi-distance = 2 points.",consigne:"Préférer un tir en mi-distance si la position est favorable.",realisation:"L'élève anticipe son placement avant de recevoir le ballon, en fonction de la zone visée.",reussite:"Tenter au moins 1 tir en mi-distance par période.",regulation:"Pour simplifier : autoriser un temps d'arrêt avant le tir pour stabiliser l'équilibre. Pour complexifier : limiter le nombre de dribbles avant l'attaque de la zone mi-distance."},B:{tache:"Défense en zone restrictive (tir proche interdit).",consigne:"S'éloigner de la raquette pour se rendre disponible en mi-distance.",realisation:"Les déplacements sans ballon visent systématiquement l'extérieur de la raquette.",reussite:"Obtenir un score pondéré (SP) ≥ 4 sur la période.",regulation:"Pour simplifier : réduire la taille de la zone restrictive interdite. Pour complexifier : étendre la zone restrictive jusqu'à la ligne des lancers-francs."},C:{tache:"Match réel score pondéré officiel.",consigne:"Optimiser son score pondéré individuel.",realisation:"L'élève choisit systématiquement la zone offrant le meilleur rapport probabilité de réussite / valeur du tir.",reussite:"Obtenir un score pondéré (SP) ≥ 9 sur la période.",regulation:"Pour simplifier : bonifier davantage les tirs mi-distance dans le barème. Pour complexifier : pénaliser légèrement les tirs proches répétés au-delà de 2 par possession."}},
+      consolidation:{A:{tache:"Match réel à score pondéré officiel : zone proche = 1 point, mi-distance = 1,5 point, 3 points = 2 points.",consigne:"Préférer un tir en mi-distance si la position est favorable, en situation de jeu réel.",realisation:"L'élève maintient son choix de zone malgré la pression défensive et le rythme du jeu réel.",reussite:"Tenter au moins 2 tirs en mi-distance par période.",regulation:"Pour simplifier : accorder un temps de jeu prolongé pour multiplier les occasions. Pour complexifier : réduire le temps de possession collectif (chronomètre d'attaque)."},B:{tache:"Match réel avec défense active en zone restrictive (tir proche interdit).",consigne:"S'éloigner de la raquette malgré la pression défensive.",realisation:"Les déplacements restent actifs même sous la contrainte d'une défense qui cherche à recentrer le jeu.",reussite:"Obtenir un score pondéré (SP) ≥ 6 sur la période.",regulation:"Pour simplifier : limiter l'intensité de la défense en zone restrictive. Pour complexifier : défense qui anticipe et ferme activement la zone mi-distance."},C:{tache:"Match réel à score pondéré officiel, opposition maximale.",consigne:"Optimiser son score pondéré individuel sur l'ensemble du match.",realisation:"L'élève ajuste continuellement ses choix de zone en fonction de l'évolution du score et de la défense adverse.",reussite:"Obtenir un score pondéré (SP) ≥ 12 sur la période.",regulation:"Pour simplifier : introduire un objectif de score collectif partagé pour réduire la pression individuelle. Pour complexifier : limiter le nombre de tirs proches autorisés par équipe sur l'ensemble du match."}}
+    }},
+  {id:"A5",titre:"Lecture du contexte et pertinence du tir (C5)",type:"DÉCISION",codeC:"C5",seuilPassage:2,cible:"C5 N1 (<40%) → N2 (40–59%)",desc:"Reconnaître l'équilibre, la distance du défenseur (>1 m), le timing collectif. 2c2 avec commentaire systématique des choix.",sa:"SA5 : 2c2 avec observateur-pair — chaque tir qualifié pertinent/non pertinent. Critère : ≥40% pertinents.",pi:"C5 ≥ 40% (N2)",
+    versions:{
+      decouverte:{A:{tache:"1 contre 1 passif — un observateur-pair qualifie chaque tir tenté.",consigne:"Ne tirer qu'en situation d'équilibre (pieds stables, pas en pleine course).",realisation:"L'élève marque un temps d'arrêt visible avant chaque tir pour vérifier son équilibre.",reussite:"Au moins 25% des tirs qualifiés « pertinents » par l'observateur.",regulation:"Pour simplifier : accorder plus de temps avant chaque tir, sans contrainte de rythme. Pour complexifier : réduire le temps de préparation autorisé avant le tir."},B:{tache:"2 contre 2 avec commentaire systématique des choix, défenseur passif.",consigne:"Annoncer à voix haute « bon tir » ou « j'attends » avant chaque tentative.",realisation:"La verbalisation précède systématiquement l'action ; l'élève justifie brièvement son choix (distance du défenseur, équilibre).",reussite:"Au moins 35% des tirs jugés pertinents en auto-évaluation.",regulation:"Pour simplifier : limiter le jugement à un seul critère (équilibre uniquement). Pour complexifier : ajouter un second critère de jugement (distance du défenseur, timing collectif)."},C:{tache:"3 contre 3 avec opposition modérée — l'élève tient son propre comptage du taux de tirs pertinents (TTP).",consigne:"Refuser le mauvais tir, même si une occasion de tir se présente.",realisation:"L'élève évalue distance du défenseur et équilibre avant chaque décision, en moins d'une seconde.",reussite:"Au moins 45% de tirs pertinents sur la période.",regulation:"Pour simplifier : accorder un délai supplémentaire pour la prise de décision. Pour complexifier : réduire ce délai et augmenter la mobilité du défenseur."}},
+      developpement:{A:{tache:"2 contre 2 — un observateur-pair qualifie chaque tir tenté.",consigne:"Ne tirer qu'en situation d'équilibre.",realisation:"L'élève contrôle sa vitesse de déplacement pour stabiliser ses appuis avant le tir.",reussite:"Au moins 40% des tirs qualifiés pertinents par l'observateur.",regulation:"Pour simplifier : réduire la mobilité exigée avant le tir (réception statique). Pour complexifier : imposer une réception en mouvement avant chaque tir."},B:{tache:"3 contre 3 avec commentaire systématique des choix.",consigne:"Annoncer « bon tir » ou « j'attends » avant chaque tentative.",realisation:"La verbalisation intègre la position du défenseur ET l'équilibre de l'élève.",reussite:"Au moins 50% des tirs jugés pertinents en auto-évaluation.",regulation:"Pour simplifier : limiter le nombre de défenseurs actifs simultanément. Pour complexifier : demander une justification du choix après chaque tir (debrief immédiat)."},C:{tache:"4 contre 4 libre — l'élève tient son propre comptage du taux de tirs pertinents (TTP).",consigne:"Refuser le mauvais tir.",realisation:"L'élève intègre la lecture du jeu collectif (placement des coéquipiers) dans sa décision de tir.",reussite:"Au moins 60% de tirs pertinents en jeu réel.",regulation:"Pour simplifier : réduire le temps de jeu pour limiter la fatigue décisionnelle. Pour complexifier : augmenter le rythme de jeu (transitions rapides)."}},
+      consolidation:{A:{tache:"3 contre 3 réel — un observateur-pair qualifie chaque tir, opposition réelle.",consigne:"Ne tirer qu'en situation d'équilibre, même sous pression.",realisation:"L'élève maintient son contrôle d'équilibre malgré le contact ou la proximité d'un défenseur réel.",reussite:"Au moins 50% des tirs qualifiés pertinents par l'observateur.",regulation:"Pour simplifier : limiter l'intensité défensive autorisée. Pour complexifier : opposition à pleine intensité avec contact réglementaire."},B:{tache:"4 contre 4 réel avec commentaire systématique des choix.",consigne:"Annoncer « bon tir » ou « j'attends » avant chaque tentative, à pleine intensité.",realisation:"La verbalisation reste rapide et précise malgré le rythme soutenu du jeu réel.",reussite:"Au moins 65% des tirs jugés pertinents en auto-évaluation.",regulation:"Pour simplifier : réduire ponctuellement le rythme de jeu (temps morts fréquents). Pour complexifier : supprimer les temps morts, jeu continu sur la période."},C:{tache:"Match réel libre — l'élève tient son propre comptage du taux de tirs pertinents (TTP).",consigne:"Refuser le mauvais tir en toute situation de jeu.",realisation:"La décision de tir intègre simultanément l'équilibre personnel, la distance du défenseur et le placement collectif.",reussite:"Au moins 75% de tirs pertinents en jeu réel.",regulation:"Pour simplifier : introduire un debrief vidéo ou différé pour faciliter la prise de recul. Pour complexifier : imposer un objectif de TTP collectif partagé par l'équipe."}}
+    }},
+  {id:"A6",titre:"Consolidation mi-distance + lecture fine (C2×C5)",type:"TECHNIQUE + DÉCISION",codeC:"C2",seuilPassage:3,cible:"C2 → N3 (35–49%) + C5 → N3 (60–79%)",desc:"Pour profil déjà N2 sur C1 et C3. Refuser un mauvais tir, chercher le meilleur angle, enrichir le répertoire. Match à rôles.",sa:"SA6 : 3c3 — tir MD vaut 2 pts. Observateur note les mauvais tirs refusés. Critère : 1 panier MD + 1 refus par match.",pi:"C2 ≥ 35% ET C5 ≥ 60%",
+    versions:{
+      decouverte:{A:{tache:"2 contre 0 avec défenseur statique (lecture passive) — identifier si la mi-distance est libre, tirer ; sinon, passer.",consigne:"Annoncer « libre » ou « pas libre » avant chaque décision.",realisation:"L'élève balaie la zone du regard avant de s'engager ; la verbalisation précède l'action de tir ou de passe.",reussite:"Tenter au moins 1 tir en mi-distance par période.",regulation:"Pour simplifier : figer la position du défenseur (toujours visible). Pour complexifier : varier la position du défenseur à chaque répétition."},B:{tache:"2 contre 2 — le tir en mi-distance vaut 2 points, défenseur passif. L'observateur note les mauvais tirs refusés.",consigne:"Chercher le meilleur angle de tir avant de se décider.",realisation:"L'élève se déplace pour optimiser son angle plutôt que de tirer depuis la première position disponible.",reussite:"Identifier au moins 1 mauvais tir refusé par période.",regulation:"Pour simplifier : élargir la zone de tir valorisée. Pour complexifier : réduire la zone de tir valorisée à un secteur précis du terrain."},C:{tache:"3 contre 3 : un tir mi-distance réussi vaut 3 points, opposition modérée.",consigne:"Enrichir son répertoire de tir en variant les zones utilisées.",realisation:"L'élève alterne consciemment les zones de prise de tir d'une possession à l'autre.",reussite:"Niveau global C2 ≥ 30% ET C5 ≥ 50% en cours de cycle.",regulation:"Pour simplifier : bonifier davantage la variété des zones dans le score. Pour complexifier : limiter le nombre de tirs autorisés depuis une même zone par match."}},
+      developpement:{A:{tache:"2 contre 1 avec défenseur passif — identifier si la mi-distance est libre, tirer ; sinon, passer.",consigne:"Annoncer « libre » ou « pas libre » avant chaque décision.",realisation:"La lecture de la défense se fait avant la réception du ballon, pas après.",reussite:"Réussir au moins 1 tir en mi-distance par période.",regulation:"Pour simplifier : réduire la mobilité du défenseur. Pour complexifier : ajouter un second défenseur en aide ponctuelle."},B:{tache:"3 contre 3 — le tir en mi-distance vaut 2 points. L'observateur note les mauvais tirs refusés.",consigne:"Chercher le meilleur angle de tir.",realisation:"L'élève ajuste sa position par petits déplacements latéraux pour optimiser son angle avant de tirer.",reussite:"Identifier au moins 1 mauvais tir refusé par période.",regulation:"Pour simplifier : accorder plus de temps de réflexion avant le tir. Pour complexifier : réduire ce temps et augmenter la pression défensive."},C:{tache:"4 contre 4 : un tir mi-distance réussi vaut 3 points.",consigne:"Enrichir son répertoire de tir en variant les zones utilisées.",realisation:"L'élève adapte son placement collectif pour multiplier les opportunités de tir variées.",reussite:"Niveau global C2 ≥ 35% ET C5 ≥ 60% en fin de cycle.",regulation:"Pour simplifier : augmenter la bonification des tirs variés. Pour complexifier : imposer un nombre minimum de zones différentes utilisées par match."}},
+      consolidation:{A:{tache:"3 contre 2 réel — identifier si la mi-distance est libre, tirer ; sinon, passer, en opposition réelle.",consigne:"Annoncer « libre » ou « pas libre » en jeu rapide.",realisation:"La décision est prise en une fraction de seconde, sans ralentir le rythme du jeu.",reussite:"Réussir au moins 2 tirs en mi-distance par période.",regulation:"Pour simplifier : limiter l'intensité défensive autorisée. Pour complexifier : jeu à pleine vitesse avec transition rapide attaque-défense."},B:{tache:"4 contre 4 réel — le tir en mi-distance vaut 2 points. L'observateur note les mauvais tirs refusés.",consigne:"Chercher le meilleur angle de tir, à pleine intensité.",realisation:"L'élève maintient sa capacité d'ajustement d'angle malgré la pression et la vitesse du jeu réel.",reussite:"Identifier au moins 2 mauvais tirs refusés par période.",regulation:"Pour simplifier : réduire ponctuellement le nombre de défenseurs actifs. Pour complexifier : défense individuelle stricte sur l'ensemble du match."},C:{tache:"Match réel : un tir mi-distance réussi vaut 3 points.",consigne:"Enrichir son répertoire de tir, varier les zones en toute situation de jeu.",realisation:"L'élève intègre la variété des zones de tir dans sa stratégie collective, en lien avec ses coéquipiers.",reussite:"Niveau global C2 ≥ 40% ET C5 ≥ 70% en fin de cycle.",regulation:"Pour simplifier : introduire un système de points bonus collectif pour la diversité des tirs d'équipe. Pour complexifier : limiter le temps de possession et exiger une diversité de zones sur l'ensemble du match."}}
+    }},
+];
+
+var joueurs=[],axesSel=[],nbS=8,curP=1;
+var SLBLS=["","Saisie","Diagnostic","Axes","Paramétrage","Planification"];
+
+/* ── NAV ── */
+function goTo(n){
+  if(n===2&&!joueurs.length){alert("Ajoutez au moins un élève.");return}
+  curP=n;
+  document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));
+  document.getElementById("p"+n).classList.add("active");
+  document.querySelectorAll(".sbtn").forEach((b,i)=>{
+    b.classList.remove("active","done");
+    if(i+1===n)b.classList.add("active");
+    else if(i+1<n)b.classList.add("done");
+  });
+  var pct=Math.round(n/5*100);
+  document.getElementById("prog-fill").style.width=pct+"%";
+  document.getElementById("prog-pct").textContent=pct+"%";
+  document.getElementById("prog-lbl").textContent="Étape "+n+" / 5 — "+SLBLS[n];
+  if(n===2)renderDiag();if(n===3)renderAxes();if(n===4)renderParam();if(n===5)renderPlan();
+  window.scrollTo(0,0);
+}
+/* Met à jour la bannière KPI du header : nombre d'élèves saisis, % de la classe ayant
+   un diagnostic complet (données suffisantes pour calculer un niveau), et niveau moyen
+   de classe (moyenne de ng sur les élèves au diagnostic complet uniquement — les élèves
+   à données insuffisantes, cf calcJ(), n'ont pas de ng numérique et fausseraient la moyenne). */
+function kpis(){
+  var calcsAll=joueurs.map(calcJ);
+  var valides=calcsAll.filter(c=>!c.insuffisant);
+  document.getElementById("kpi-j").textContent=joueurs.length;
+  document.getElementById("kpi-d").textContent=joueurs.length?Math.round(valides.length/joueurs.length*100)+"%":"—";
+  document.getElementById("kpi-ng").textContent=valides.length?(valides.reduce((s,c)=>s+c.ng,0)/valides.length).toFixed(2):"—";
+}
+function switchTab(t){
+  document.getElementById("pane-m").style.display=t==="m"?"":"none";
+  document.getElementById("pane-c").style.display=t==="c"?"":"none";
+  document.getElementById("tab-m").classList.toggle("active",t==="m");
+  document.getElementById("tab-c").classList.toggle("active",t==="c");
+}
+
+/* ── DRAG & DROP ── */
+function handleDragOver(e){e.preventDefault();document.getElementById("csv-drop").classList.add("drag-over")}
+function handleDragLeave(e){document.getElementById("csv-drop").classList.remove("drag-over")}
+function handleDrop(e){
+  e.preventDefault();
+  document.getElementById("csv-drop").classList.remove("drag-over");
+  var file=e.dataTransfer.files[0];
+  if(!file)return;
+  processCSVFile(file);
+}
+
+/* ── TÉLÉCHARGER GRILLE VIERGE ── */
+function telechargerGrille(){
+  var headers="nom,prenom,proches_reussis,proches_tentes,mid_reussis,mid_tentes,3pts_reussis,3pts_tentes,temps_jeu_min,tirs_pertinents_obs\n";
+  var rows="";
+  for(var i=1;i<=30;i++){
+    rows+="Eleve_"+i+",Prenom_"+i+",0,0,0,0,0,0,10,0\n";
+  }
+  var csv=headers+rows;
+  var blob=new Blob([csv],{type:"text/csv;charset=utf-8;"});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement("a");
+  a.href=url;a.download="grille_evaluation_basket_EPS.csv";
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+/* ── EXPORT XLSX (tableau de classification des élèves) ──
+   Génère un fichier .xlsx valide (format OOXML) entièrement en JavaScript natif, sans aucune
+   bibliothèque externe ni connexion réseau (cohérent avec le fonctionnement hors connexion de
+   l'outil, cf. badge "📴 Hors connexion") : un .xlsx est une archive ZIP contenant plusieurs
+   fichiers XML. On construit ici cette archive "à la main" avec la méthode de stockage ZIP la
+   plus simple (STORE, sans compression), ce qui évite d'implémenter un algorithme de compression
+   (deflate) tout en produisant un fichier .xlsx parfaitement valide, lisible par Excel, LibreOffice
+   Calc et Google Sheets. */
+
+// Table de correspondance CRC32 (nécessaire pour l'en-tête de chaque fichier de l'archive ZIP)
+var _crc32Table=(function(){
+  var table=[];
+  for(var n=0;n<256;n++){
+    var c=n;
+    for(var k=0;k<8;k++)c=(c&1)?(0xEDB88320^(c>>>1)):(c>>>1);
+    table[n]=c>>>0;
+  }
+  return table;
+})();
+function crc32(bytes){
+  var crc=0^(-1);
+  for(var i=0;i<bytes.length;i++)crc=(crc>>>8)^_crc32Table[(crc^bytes[i])&0xFF];
+  return(crc^(-1))>>>0;
+}
+/* Construit une archive ZIP (méthode STORE, sans compression) à partir d'une liste de fichiers
+   {name, data:Uint8Array} et retourne le Uint8Array binaire complet de l'archive. */
+function buildZipStore(files){
+  var enc=new TextEncoder();
+  function u16(arr,v){arr.push(v&0xFF,(v>>8)&0xFF)}
+  function u32(arr,v){arr.push(v&0xFF,(v>>8)&0xFF,(v>>16)&0xFF,(v>>>24)&0xFF)}
+  var localChunks=[],centralChunks=[],offset=0;
+  files.forEach(function(file){
+    var nameBytes=enc.encode(file.name),data=file.data,crc=crc32(data),size=data.length;
+    var lh=[];u32(lh,0x04034b50);u16(lh,20);u16(lh,0);u16(lh,0);u16(lh,0);u16(lh,0);
+    u32(lh,crc);u32(lh,size);u32(lh,size);u16(lh,nameBytes.length);u16(lh,0);
+    var lhBytes=new Uint8Array(lh);
+    var entry=new Uint8Array(lhBytes.length+nameBytes.length+data.length);
+    entry.set(lhBytes,0);entry.set(nameBytes,lhBytes.length);entry.set(data,lhBytes.length+nameBytes.length);
+    localChunks.push(entry);
+    var ch=[];u32(ch,0x02014b50);u16(ch,20);u16(ch,20);u16(ch,0);u16(ch,0);u16(ch,0);u16(ch,0);
+    u32(ch,crc);u32(ch,size);u32(ch,size);u16(ch,nameBytes.length);u16(ch,0);u16(ch,0);u16(ch,0);u16(ch,0);
+    u32(ch,0);u32(ch,offset);
+    var chBytes=new Uint8Array(ch);
+    var centralEntry=new Uint8Array(chBytes.length+nameBytes.length);
+    centralEntry.set(chBytes,0);centralEntry.set(nameBytes,chBytes.length);
+    centralChunks.push(centralEntry);
+    offset+=entry.length;
+  });
+  var centralOffset=offset,centralSize=centralChunks.reduce(function(s,c){return s+c.length},0);
+  var eocd=[];u32(eocd,0x06054b50);u16(eocd,0);u16(eocd,0);u16(eocd,files.length);u16(eocd,files.length);
+  u32(eocd,centralSize);u32(eocd,centralOffset);u16(eocd,0);
+  var eocdBytes=new Uint8Array(eocd);
+  var total=offset+centralSize+eocdBytes.length;
+  var out=new Uint8Array(total),pos=0;
+  localChunks.forEach(function(c){out.set(c,pos);pos+=c.length});
+  centralChunks.forEach(function(c){out.set(c,pos);pos+=c.length});
+  out.set(eocdBytes,pos);
+  return out;
+}
+function xlsxEsc(s){
+  if(s===null||s===undefined)return"";
+  return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+}
+function colLetter(n){
+  var s="";
+  while(n>0){var rem=(n-1)%26;s=String.fromCharCode(65+rem)+s;n=Math.floor((n-1)/26)}
+  return s;
+}
+function xlsxCellText(ref,text,style){
+  return'<c r="'+ref+'"'+(style?' s="'+style+'"':'')+' t="inlineStr"><is><t xml:space="preserve">'+xlsxEsc(text)+'</t></is></c>';
+}
+function xlsxCellNum(ref,num,style){
+  return'<c r="'+ref+'"'+(style?' s="'+style+'"':'')+'><v>'+num+'</v></c>';
+}
+/* Construit le fichier .xlsx (Uint8Array) à partir d'une grille de données : headers (libellés
+   de colonnes, ligne 1 en gras) et rows (tableau de lignes, chaque cellule étant {v,type} avec
+   type "n" pour un nombre ou "s" pour du texte). */
+function buildClassificationXLSX(headers,rows){
+  var enc=new TextEncoder();
+  var sheetRows=[];
+  var headerCells=headers.map(function(h,i){return xlsxCellText(colLetter(i+1)+"1",h,1)}).join("");
+  sheetRows.push('<row r="1">'+headerCells+'</row>');
+  rows.forEach(function(row,ri){
+    var r=ri+2;
+    var cells=row.map(function(cell,ci){
+      var ref=colLetter(ci+1)+r;
+      return cell.type==="n"?xlsxCellNum(ref,cell.v,0):xlsxCellText(ref,cell.v,0);
+    }).join("");
+    sheetRows.push('<row r="'+r+'">'+cells+'</row>');
+  });
+  var dim=colLetter(headers.length)+(rows.length+1);
+  var sheetXml='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+
+    '<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">'+
+    '<dimension ref="A1:'+dim+'"/>'+
+    '<sheetData>'+sheetRows.join("")+'</sheetData>'+
+    '</worksheet>';
+  var contentTypes='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+
+    '<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">'+
+    '<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>'+
+    '<Default Extension="xml" ContentType="application/xml"/>'+
+    '<Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>'+
+    '<Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>'+
+    '<Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>'+
+    '</Types>';
+  var rootRels='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+
+    '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'+
+    '<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/>'+
+    '</Relationships>';
+  var workbookXml='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+
+    '<workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">'+
+    '<sheets><sheet name="Classification" sheetId="1" r:id="rId1"/></sheets>'+
+    '</workbook>';
+  var workbookRels='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+
+    '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'+
+    '<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/>'+
+    '<Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/>'+
+    '</Relationships>';
+  var stylesXml='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+
+    '<styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">'+
+    '<fonts count="2"><font><sz val="11"/><name val="Calibri"/></font>'+
+    '<font><b/><sz val="11"/><color rgb="FFFFFFFF"/><name val="Calibri"/></font></fonts>'+
+    '<fills count="3"><fill><patternFill patternType="none"/></fill>'+
+    '<fill><patternFill patternType="gray125"/></fill>'+
+    '<fill><patternFill patternType="solid"><fgColor rgb="FF1255A0"/><bgColor indexed="64"/></patternFill></fill></fills>'+
+    '<borders count="1"><border><left/><right/><top/><bottom/><diagonal/></border></borders>'+
+    '<cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs>'+
+    '<cellXfs count="2">'+
+    '<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/>'+
+    '<xf numFmtId="0" fontId="1" fillId="2" borderId="0" xfId="0" applyFont="1" applyFill="1"/>'+
+    '</cellXfs>'+
+    '<cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles>'+
+    '</styleSheet>';
+  var files=[
+    {name:"[Content_Types].xml",data:enc.encode(contentTypes)},
+    {name:"_rels/.rels",data:enc.encode(rootRels)},
+    {name:"xl/workbook.xml",data:enc.encode(workbookXml)},
+    {name:"xl/_rels/workbook.xml.rels",data:enc.encode(workbookRels)},
+    {name:"xl/styles.xml",data:enc.encode(stylesXml)},
+    {name:"xl/worksheets/sheet1.xml",data:enc.encode(sheetXml)}
+  ];
+  return buildZipStore(files);
+}
+/* Télécharge un tableau de classification des élèves (.xlsx) : une ligne par élève, avec son
+   groupe de niveau (A/B/C, cf. groupeEleve()), son profil global, ses 5 critères C1-C5 (valeur
+   chiffrée + niveau N1-N4) et sa lacune principale — les mêmes informations que celles utilisées
+   pour construire la planification des séances. */
+function telechargerClassificationXLSX(){
+  var calcs=joueurs.map(calcJ);
+  var headers=["Nom","Groupe","Profil","Niveau moyen","C1 — TRP (%)","C1 — Niveau","C2 — TRMD (%)","C2 — Niveau","C3 — IVT","C3 — Niveau","C4 — SP","C4 — Niveau","C5 — TTP (%, hors note)","C5 — Niveau","Lacune principale","Statut"];
+  var rows=calcs.map(function(c){
+    if(c.insuffisant){
+      return[
+        {v:c.nom,type:"s"},{v:"—",type:"s"},{v:"Données insuffisantes",type:"s"},{v:"—",type:"s"},
+        {v:"—",type:"s"},{v:"—",type:"s"},{v:"—",type:"s"},{v:"—",type:"s"},
+        {v:"—",type:"s"},{v:"—",type:"s"},{v:"—",type:"s"},{v:"—",type:"s"},
+        {v:"—",type:"s"},{v:"—",type:"s"},{v:"—",type:"s"},{v:"Données incomplètes",type:"s"}
+      ];
+    }
+    var statut=c.zeroEngagement?"⚠️ Zéro tentative":"Données complètes";
+    return[
+      {v:c.nom,type:"s"},
+      {v:groupeEleve(c),type:"s"},
+      {v:c.profil,type:"s"},
+      {v:Math.round(c.ng*100)/100,type:"n"},
+      {v:c.trp!==null?Math.round(c.trp):"—",type:c.trp!==null?"n":"s"},
+      {v:nLbl(c.nc1),type:"s"},
+      {v:c.trmd!==null?Math.round(c.trmd):"—",type:c.trmd!==null?"n":"s"},
+      {v:nLbl(c.nc2),type:"s"},
+      {v:Math.round(c.ivt*100)/100,type:"n"},
+      {v:nLbl(c.nc3),type:"s"},
+      {v:Math.round(c.sp*10)/10,type:"n"},
+      {v:nLbl(c.nc4),type:"s"},
+      {v:c.ttp!==null?Math.round(c.ttp):"—",type:c.ttp!==null?"n":"s"},
+      {v:c.nc5!==null?nLbl(c.nc5):"—",type:"s"},
+      {v:c.lacune.c,type:"s"},
+      {v:statut,type:"s"}
+    ];
+  });
+  var xlsxBytes=buildClassificationXLSX(headers,rows);
+  var blob=new Blob([xlsxBytes],{type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement("a");
+  a.href=url;a.download="classification_eleves_basket_EPS.xlsx";
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+/* ── CALCUL ── */
+/* "insuffisant" et "zeroEngagement" sont deux cas distincts, désormais traités séparément :
+   - insuffisant (fiche non remplie) : aucun temps de jeu renseigné (!(d.tps>0)). Dans ce cas
+     seulement, on ne peut rien calculer numériquement (ng reste null) — l'élève est exclu des
+     statistiques N1–N4 et des groupes A/B/C.
+   - zeroEngagement (a joué mais n'a jamais tiré) : d.tps>0 ET d.pT+d.mT+d.tT===0. Contrairement
+     à l'ancien comportement (exclusion totale, comme "insuffisant"), ce cas est désormais calculé
+     numériquement comme n'importe quel autre élève : ivt=0 (aucune tentative / temps de jeu)
+     → nc3=N1, sp=0 (aucun point pondéré) → nc4=N1. nc1/nc2 retombent aussi à N1 par défaut
+     (trp/trmd = null, cf nC1/nC2) et nc5 reste null (aucun tir à qualifier, ttp non défini).
+     L'élève est donc bien inclus dans les groupes A/B/C et dans renderPlan(), avec un badge
+     d'alerte "⚠️ Zéro tentative" affiché dans les tableaux (renderJoueurs/renderDiag) plutôt
+     qu'une exclusion. */
+function calcJ(d){
+  var insuffisant=!(d.tps>0);
+  if(insuffisant){
+    return{nom:d.nom,trp:null,trmd:null,ivt:null,sp:0,ttp:null,nc1:null,nc2:null,nc3:null,nc4:null,nc5:null,ng:null,niv:null,profil:"Données insuffisantes",pCls:"prf-na",lacune:null,crois:null,insuffisant:true,zeroEngagement:false};
+  }
+  var zeroEngagement=(d.pT+d.mT+d.tT)===0;
+  var trp=d.pT>0?d.pOK/d.pT*100:null;
+  var trmd=d.mT>0?d.mOK/d.mT*100:null;
+  var ivt=d.tps>0?(d.pT+d.mT+d.tT)/d.tps:null;
+  var sp=d.pOK*1+d.mOK*1.5+d.tOK*2;
+  var tot=d.pT+d.mT+d.tT;
+  var ttp=tot>0?d.tp/tot*100:null;
+  var nc1=nC1(trp),nc2=nC2(trmd),nc3=nC3(ivt),nc4=nC4(sp),nc5=nC5(ttp);
+  var ng=nG(nc1,nc2,nc3,nc4);
+  var niv=nivProfil(nc1,nc2,nc3,nc4,ng);
+  return{nom:d.nom,trp,trmd,ivt,sp,ttp,nc1,nc2,nc3,nc4,nc5,ng,niv,profil:pLbl(niv),pCls:pCls(niv),lacune:lacune(nc1,nc2,nc3,nc4),crois:croisC5(nc1,nc2,nc3,nc5),insuffisant:false,zeroEngagement:zeroEngagement};
+}
+
+/* ── SAISIE ── */
+function gN(id){var v=parseFloat(document.getElementById(id).value);return isNaN(v)?0:Math.max(0,v)}
+/* Vérifie les 3 paires réussis/tentés (proche, mi-distance, 3 points) et renvoie la liste des messages d'erreur (vide si tout est correct) */
+function validerTirs(pOK,pT,mOK,mT,tOK,tT){
+  var errs=[];
+  if(pOK>pT)errs.push("Le nombre de tirs réussis ne peut pas dépasser le nombre de tirs tentés en zone proche.");
+  if(mOK>mT)errs.push("Le nombre de tirs réussis ne peut pas dépasser le nombre de tirs tentés en zone mi-distance.");
+  if(tOK>tT)errs.push("Le nombre de tirs réussis ne peut pas dépasser le nombre de tirs tentés en zone à 3 points.");
+  return errs;
+}
+function ajouterJoueur(){
+  var nom=(document.getElementById("f-nom").value||"").trim();
+  if(!nom){alert("Entrez un prénom / nom.");return}
+  var pOK=gN("f-p-ok"),pT=gN("f-p-tent"),mOK=gN("f-m-ok"),mT=gN("f-m-tent"),tOK=gN("f-t-ok"),tT=gN("f-t-tent"),tps=gN("f-tps"),tp=gN("f-tp");
+  var errs=validerTirs(pOK,pT,mOK,mT,tOK,tT);
+  if(errs.length){alert("⚠️ Impossible d'ajouter cet élève :\n\n"+errs.join("\n"));return}
+  joueurs.push({nom,pOK,pT,mOK,mT,tOK,tT,tps,tp});
+  reinitForm();renderJoueurs();kpis();
+}
+function reinitForm(){
+  ["f-nom","f-p-ok","f-p-tent","f-m-ok","f-m-tent","f-t-ok","f-t-tent","f-tps","f-tp"].forEach(id=>document.getElementById(id).value="");
+  document.getElementById("f-nom").focus();
+}
+function suppJ(i){joueurs.splice(i,1);renderJoueurs();kpis()}
+function viderJoueurs(){if(joueurs.length&&!confirm("Vider toute la liste ?"))return;joueurs=[];renderJoueurs();kpis()}
+function renderJoueurs(){
+  var wrap=document.getElementById("jwrap"),list=document.getElementById("jlist"),nb=document.getElementById("nb-j");
+  if(!joueurs.length){wrap.style.display="none";return}
+  wrap.style.display="";nb.textContent=joueurs.length;
+  list.innerHTML=joueurs.map((d,i)=>{
+    var c=calcJ(d);
+    if(c.insuffisant){
+      return`<div class="jcard">
+        <span class="jnum">${i+1}</span>
+        <span class="jnom">${esc(d.nom)}</span>
+        <div class="jchips">
+          <span class="chip cn-na">⚠️ Données incomplètes</span>
+        </div>
+        <span class="prf-na" style="white-space:nowrap;font-size:.68rem">${c.profil}</span>
+        <button class="btn btn-d" onclick="suppJ(${i})">✕</button>
+      </div>`;
+    }
+    return`<div class="jcard">
+      <span class="jnum">${i+1}</span>
+      <span class="jnom">${esc(d.nom)}</span>
+      <div class="jchips">
+        ${c.zeroEngagement?`<span class="chip cn-na">⚠️ Zéro tentative</span>`:""}
+        <span class="chip ${cCls(c.nc1)}">C1 ${nLbl(c.nc1)}</span>
+        <span class="chip ${cCls(c.nc2)}">C2 ${nLbl(c.nc2)}</span>
+        <span class="chip ${cCls(c.nc3)}">C3 ${nLbl(c.nc3)}</span>
+        <span class="chip ${cCls(c.nc4)}" title="C4 (SP) : pondération interne à l'outil, pas le barème officiel du basket-ball">C4 ${nLbl(c.nc4)}</span>
+        ${c.nc5!==null?`<span class="chip cn2" title="C5 hors note">C5 ${nLbl(c.nc5)}</span>`:""}
+      </div>
+      <span class="${c.pCls}" style="white-space:nowrap;font-size:.68rem">${c.profil}</span>
+      <button class="btn btn-d" onclick="suppJ(${i})">✕</button>
+    </div>`;
+  }).join("");
+}
+
+/* ── CSV ── */
+function importCSV(evt){processCSVFile(evt.target.files[0])}
+function processCSVFile(file){
+  if(!file)return;
+  var st=document.getElementById("csv-status");
+  var r=new FileReader();
+  r.onload=e=>{
+    var parsed=parseCSV(e.target.result);
+    var rows=parsed.rows,errs=parsed.errors;
+    if(!rows.length&&!errs.length){
+      st.className="csv-status err";
+      st.innerHTML="❌ Aucun élève trouvé — vérifiez les en-têtes du fichier.";
+      return;
+    }
+    if(rows.length){
+      joueurs=joueurs.concat(rows);
+      renderJoueurs();kpis();
+    }
+    if(errs.length){
+      st.className="csv-status err";
+      st.innerHTML="⚠️ <strong>"+rows.length+" élève(s) importé(s)</strong>, "+errs.length+" ligne(s) ignorée(s) depuis «"+esc(file.name)+"» :<br>"+errs.map(x=>esc(x)).join("<br>");
+    }else{
+      st.className="csv-status ok";
+      st.innerHTML="✅ <strong>"+rows.length+" élève(s) importé(s)</strong> avec succès depuis «"+esc(file.name)+"»";
+    }
+  };
+  r.readAsText(file,"UTF-8");
+}
+function parseCSV(txt){
+  var lines=txt.replace(/\r\n/g,"\n").replace(/\r/g,"\n").split("\n");
+  if(lines.length<2)return{rows:[],errors:[]};
+  var sep=lines[0].split(";").length>lines[0].split(",").length?";":","
+  var hi=-1;
+  for(var i=0;i<Math.min(lines.length,10);i++){var l=lines[i].toLowerCase();if(l.includes("nom")||l.includes("prenom")){hi=i;break}}
+  if(hi<0)hi=0;
+  var hdr=lines[hi].split(sep).map(h=>h.trim().toLowerCase().replace(/"/g,""));
+  function col(al){for(var i=0;i<hdr.length;i++)if(al.some(a=>hdr[i].includes(a)))return i;return-1}
+  var iNom=col(["nom_eleve","nom"]),iPre=col(["prenom","prénom"]);
+  var iPOK=col(["proches_reussis","proches ok","proches réussis"]);
+  var iPT=col(["proches_tentes","proches tentés","proches tentes"]);
+  var iMOK=col(["mid_reussis","mid ok","mi-dist ok"]);
+  var iMT=col(["mid_tentes","mid tentés","mi-dist tent"]);
+  var iTOK=col(["3pts_reussis","3pts ok","3 pts ok"]);
+  var iTT=col(["3pts_tentes","3pts tentés","3 pts tent"]);
+  var iTps=col(["temps_jeu_min","tps (min)","tps","temps"]);
+  var iTP=col(["tirs_pertinents_obs","tirs pertinents","pertinents"]);
+  var res=[],errs=[];
+  for(var r=hi+1;r<lines.length;r++){
+    var row=lines[r].split(sep).map(c=>c.trim().replace(/"/g,""));
+    if(row.every(c=>c===""))continue;
+    var nom=(iNom>=0?row[iNom]:"")+(iPre>=0?" "+row[iPre]:"");
+    nom=nom.trim();if(!nom)continue;
+    function n(x){if(x<0)return 0;var v=parseFloat(row[x]);return isNaN(v)?0:Math.max(0,v)}
+    var pOK=n(iPOK),pT=n(iPT),mOK=n(iMOK),mT=n(iMT),tOK=n(iTOK),tT=n(iTT),tps=n(iTps),tp=n(iTP);
+    var ligneErrs=validerTirs(pOK,pT,mOK,mT,tOK,tT);
+    if(ligneErrs.length){
+      errs.push("Ligne "+(r+1)+" («"+nom+"») ignorée : "+ligneErrs.join(" "));
+      continue;
+    }
+    res.push({nom,pOK,pT,mOK,mT,tOK,tT,tps,tp});
+  }
+  return{rows:res,errors:errs};
+}
+
+/* ── DIAG ── */
+function renderDiag(){
+  var div=document.getElementById("diag-content");
+  if(!joueurs.length){div.innerHTML='<div class="al al-w">⚠️ Aucun élève. Revenez à l\'étape 1.</div>';return}
+  var calcs=joueurs.map(calcJ);
+  var valides=calcs.filter(c=>!c.insuffisant);
+  var insuf=calcs.filter(c=>c.insuffisant);
+  var tot=valides.length;
+  var t={n1:0,n2:0,n3:0,n4:0};
+  valides.forEach(c=>{if(c.niv===1)t.n1++;else if(c.niv===2)t.n2++;else if(c.niv===3)t.n3++;else t.n4++});
+  function pct(n){return tot?Math.round(n/tot*100):0}
+  var c5c={"TECHNIQUE":0,"DÉCISION":0,"ENGAGEMENT":0,"ZONE":0};
+  valides.forEach(c=>{var tp=c.crois.type.split("+")[0].trim();if(c5c[tp]!==undefined)c5c[tp]++});
+  var typeD=tot?Object.keys(c5c).reduce((a,b)=>c5c[a]>c5c[b]?a:b):null;
+  var exC=typeD?(valides.find(c=>c.crois.type.includes(typeD))||valides[0]):null;
+  var rows=calcs.map((c,i)=>{
+    if(c.insuffisant){
+      return`<tr>
+        <td class="nc">${i+1}. ${esc(c.nom)}</td>
+        <td colspan="9" style="text-align:center;color:var(--slate)"><span class="chip cn-na">⚠️ Données incomplètes</span> — temps de jeu non renseigné (fiche non remplie). Élève exclu des statistiques N1–N4.</td>
+      </tr>`;
+    }
+    return`<tr>
+    <td class="nc">${i+1}. ${esc(c.nom)}${c.zeroEngagement?` <span class="chip cn-na">⚠️ Zéro tentative</span>`:""}</td>
+    <td><span class="chip ${cCls(c.nc1)}">${nLbl(c.nc1)}</span><br><small style="font-size:.62rem;color:var(--slate)">${c.trp!==null?Math.round(c.trp)+"%":"—"}</small></td>
+    <td><span class="chip ${cCls(c.nc2)}">${nLbl(c.nc2)}</span><br><small style="font-size:.62rem;color:var(--slate)">${c.trmd!==null?Math.round(c.trmd)+"%":"—"}</small></td>
+    <td><span class="chip ${cCls(c.nc3)}">${nLbl(c.nc3)}</span><br><small style="font-size:.62rem;color:var(--slate)">${c.ivt!==null?c.ivt.toFixed(2):"—"}</small></td>
+    <td><span class="chip ${cCls(c.nc4)}">${nLbl(c.nc4)}</span><br><small style="font-size:.62rem;color:var(--slate)">${c.sp.toFixed(1)}</small></td>
+    <td>${c.nc5!==null?`<span class="chip cn2">${nLbl(c.nc5)}</span><br><small style="font-size:.62rem;color:var(--slate)">${c.ttp!==null?Math.round(c.ttp)+"%":"—"}</small>`:'<span style="color:var(--slate)">—</span>'}</td>
+    <td><strong style="font-size:.88rem">${c.ng.toFixed(2)}</strong></td>
+    <td><span class="${c.pCls}">${c.profil}</span></td>
+    <td style="font-size:.7rem;text-align:left;color:var(--slate)">${esc(c.lacune.c)}</td>
+    <td style="font-size:.68rem;white-space:nowrap;color:var(--slate)">${esc(c.crois.type)}</td>
+  </tr>`;
+  }).join("");
+  var ex="";var vus={};
+  valides.forEach(c=>{var tp=c.crois.type;if(!vus[tp]){vus[tp]=true;var cl=tp.includes("TECHNIQUE")?"al-w":tp.includes("ENGAGEMENT")?"al-ok":"al-i";var ic=tp==="TECHNIQUE"?"🔧":tp==="DÉCISION"?"🧠":tp==="ENGAGEMENT"?"💪":"📐";ex+=`<div class="dpc al ${cl}"><strong>${ic} Type ${esc(tp)}</strong> — ${esc(c.crois.txt)}</div>`}});
+  var orientHtml=typeD?`<div class="al al-ok" style="margin-bottom:16px">🎯 <strong>Orientation dominante (croisement C5) : ${esc(typeD)}</strong><br>${esc(exC.crois.txt)}</div>`:`<div class="al al-w" style="margin-bottom:16px">⚠️ Aucune orientation calculable — tous les élèves ont des données incomplètes.</div>`;
+  div.innerHTML=`
+    <div class="bgrid">
+      <div class="bbox" style="background:var(--n1l);color:var(--n1);border-color:rgba(192,57,43,.18)"><div class="bv">${t.n1} <small style="font-size:.7rem;opacity:.65">(${pct(t.n1)}%)</small></div><div class="bl">N1 Débutant</div></div>
+      <div class="bbox" style="background:var(--n2l);color:var(--n2);border-color:rgba(181,101,13,.18)"><div class="bv">${t.n2} <small style="font-size:.7rem;opacity:.65">(${pct(t.n2)}%)</small></div><div class="bl">N2 Construction</div></div>
+      <div class="bbox" style="background:var(--n3l);color:var(--n3);border-color:rgba(30,110,60,.18)"><div class="bv">${t.n3} <small style="font-size:.7rem;opacity:.65">(${pct(t.n3)}%)</small></div><div class="bl">N3 Maîtrisé</div></div>
+      <div class="bbox" style="background:var(--n4l);color:var(--n4);border-color:rgba(18,85,160,.18)"><div class="bv">${t.n4} <small style="font-size:.7rem;opacity:.65">(${pct(t.n4)}%)</small></div><div class="bl">N4 Expert</div></div>
+      ${insuf.length?`<div class="bbox" style="background:var(--nal);color:var(--na);border-color:rgba(100,116,139,.18)"><div class="bv">${insuf.length} <small style="font-size:.7rem;opacity:.65">(${joueurs.length?Math.round(insuf.length/joueurs.length*100):0}%)</small></div><div class="bl">⚠️ Données incomplètes</div></div>`:""}
+    </div>
+    ${orientHtml}
+    <div class="dtw"><table class="dt"><thead><tr>
+      <th style="text-align:left;min-width:110px">Élève</th>
+      <th>C1<br><small>TRP</small></th><th>C2<br><small>TRMD</small></th>
+      <th>C3<br><small>IVT</small></th><th title="Pondération interne à l'outil (proche ×1, mi-distance ×1,5, 3 points ×2) — ne correspond pas au barème officiel du basket-ball">C4<br><small>SP ⓘ</small></th>
+      <th>C5*<br><small>TTP</small></th>
+      <th>Niv.<br>global</th><th>Profil</th>
+      <th style="text-align:left">Lacune dom.</th><th>Type axe</th>
+    </tr></thead><tbody>${rows}</tbody></table></div>
+    <p style="font-size:.68rem;color:var(--slate);margin-bottom:14px">* C5 est hors note.${insuf.length?" Les élèves à données incomplètes ne sont pas comptés dans les statistiques N1–N4 ci-dessus.":""}</p>
+    <div class="card-t" style="margin-bottom:10px"><span class="dot"></span>Orientations pédagogiques détectées</div>${ex||'<div class="al al-w">⚠️ Aucune orientation détectée.</div>'}
+    <div class="ar"><button class="btn btn-p" onclick="goTo(3)">Choisir les axes →</button></div>`;
+}
+
+/* ── AXES ── */
+function tCls(t){if(t.includes("+"))return"tm";if(t==="TECHNIQUE")return"tt";if(t==="DÉCISION")return"td";if(t==="ENGAGEMENT")return"te";if(t==="ZONE")return"tz";return"tt"}
+function tIco(t){return t==="TECHNIQUE"?"🔧":t==="DÉCISION"?"🧠":t==="ENGAGEMENT"?"💪":t.includes("+")?"⚡":"📐"}
+/* ── pctLac() : règle de comptage harmonisée ──
+   AVANT : C1 utilisait "<=2" (compte N1+N2) alors que C2/C3/C4/C5 utilisaient "<=1"
+   (compte N1 seulement) — incohérence sans justification pédagogique.
+   CHOIX RETENU : règle paramétrée par axe, basée sur le seuil de passage RÉEL de chaque
+   axe (champ AXES[].seuilPassage), plutôt qu'un "n<=1 partout" uniforme. Un élève est
+   compté en lacune sur un axe s'il n'a pas encore atteint le niveau visé par cet axe :
+   nc[codeC] < axe.seuilPassage.
+   Pourquoi pas "n<=1 partout" ? Parce que les axes n'ont pas tous le même objectif : A1–A5
+   visent le passage N1→N2 (seuilPassage=2, donc lacune = N1 seul, équivalent à n<=1), mais
+   A6 est un axe de CONSOLIDATION qui vise le passage N2→N3 pour des élèves déjà sortis de N1
+   (seuilPassage=3, donc lacune = N1 OU N2, équivalent à n<=2). Avec une règle uniforme
+   "n<=1", le % de lacune affiché pour A6 ne refléterait que les élèves N1 (déjà couverts par
+   A2 sur le même critère C2) et ignorerait complètement les élèves N2 qui sont la cible réelle
+   de cet axe — le % serait quasi toujours proche de 0 et l'axe paraîtrait artificiellement peu
+   prioritaire alors qu'il peut concerner une grande partie de la classe. La règle paramétrée
+   reste néanmoins une seule et même formule pour tous les axes (cohérence garantie), seul le
+   seuil numérique varie selon l'objectif pédagogique propre à chaque axe. */
+function pctLac(axe){
+  var cs=joueurs.map(calcJ).filter(c=>!c.insuffisant);
+  if(!cs.length)return 0;
+  var champ={"C1":"nc1","C2":"nc2","C3":"nc3","C4":"nc4","C5":"nc5"}[axe.codeC];
+  if(!champ)return 0;
+  return Math.round(cs.filter(c=>c[champ]!==null&&c[champ]<axe.seuilPassage).length/cs.length*100);
+}
+function renderAxes(){
+  var insuf=joueurs.map(calcJ).filter(c=>c.insuffisant);
+  var tri=AXES.slice().map(a=>({a,p:pctLac(a)})).sort((x,y)=>y.p-x.p);
+  var warn=insuf.length?`<div class="al al-w" style="margin-bottom:14px">⚠️ <strong>${insuf.length} élève(s) à données incomplètes</strong> (${insuf.map(c=>esc(c.nom)).join(", ")}) exclu(s) du calcul des pourcentages de lacune ci-dessous.</div>`:"";
+  document.getElementById("axes-list").innerHTML=warn+tri.map(({a,p})=>{
+    var sel=axesSel.includes(a.id);
+    return`<div class="acard${sel?" sel":""}" id="ac-${a.id}" onclick="toggleAxe('${a.id}')">
+      <div class="achk${sel?" ck":""}" id="ck-${a.id}">${sel?"✓":""}</div>
+      <div class="abody">
+        <div class="atitle">${esc(a.titre)}</div>
+        <div><span class="atag ${tCls(a.type)}">${tIco(a.type)} ${esc(a.type)}</span><span class="apct">${p}% de lacune</span></div>
+        <div style="font-size:.72rem;color:var(--n3);font-weight:700;margin-bottom:5px">🎯 ${esc(a.cible)}</div>
+        <div class="adesc">${esc(a.desc)}</div>
+        <div class="asa"><strong>SA :</strong> ${esc(a.sa)}</div>
+        <div class="apass">▲ Passage : ${esc(a.pi)}</div>
+      </div>
+    </div>`;
+  }).join("");
+  updAxeCount();
+}
+function toggleAxe(id){
+  var idx=axesSel.indexOf(id);
+  if(idx>=0)axesSel.splice(idx,1);
+  else{if(axesSel.length>=4){alert("Maximum 4 axes.");return}axesSel.push(id)}
+  var sel=axesSel.includes(id);
+  document.getElementById("ac-"+id).classList.toggle("sel",sel);
+  var ck=document.getElementById("ck-"+id);ck.classList.toggle("ck",sel);ck.innerHTML=sel?"✓":"";
+  updAxeCount();kpis();
+}
+function updAxeCount(){
+  var el=document.getElementById("axe-count");
+  el.textContent=axesSel.length;
+  el.classList.toggle("acnt-warn",axesSel.length<2||axesSel.length>4);
+}
+
+/* ── PARAM ── */
+function updateSlider(v){nbS=parseInt(v);document.getElementById("sl-val").textContent=nbS;kpis();renderDistrib()}
+function renderDistrib(){
+  var calcsAll=joueurs.map(calcJ);
+  var cs=calcsAll.filter(c=>!c.insuffisant);
+  var insuf=calcsAll.length-cs.length;
+  var tot=cs.length;
+  var n1=cs.filter(c=>groupeEleve(c)==="A").length,n2=cs.filter(c=>groupeEleve(c)==="B").length,n3=cs.filter(c=>groupeEleve(c)==="C").length;
+  function pp(n){return tot?` <span style="font-size:.67rem;opacity:.65">(${Math.round(n/tot*100)}%)</span>`:""}
+  document.getElementById("dprev").innerHTML=
+    `<div class="dbox da"><div class="dv">${n1}${pp(n1)}</div><div class="dl">Groupe A — N1</div></div>
+     <div class="dbox db"><div class="dv">${n2}${pp(n2)}</div><div class="dl">Groupe B — N2</div></div>
+     <div class="dbox dc"><div class="dv">${n3}${pp(n3)}</div><div class="dl">Groupe C — N3/N4</div></div>
+     ${insuf?`<div class="dbox" style="grid-column:1/-1;background:var(--nal);color:var(--na)"><div class="dv">${insuf}</div><div class="dl">⚠️ Données incomplètes (non groupé)</div></div>`:""}`;
+}
+function renderParam(){
+  renderDistrib();
+  var rd=document.getElementById("axes-recap");
+  if(!axesSel.length){rd.innerHTML='<span style="color:var(--n2)">⚠️ Aucun axe. Revenez à l\'étape 3.</span>';return}
+  rd.innerHTML=axesSel.map((id,i)=>{var a=AXES.find(x=>x.id===id);return`<div style="padding:8px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px"><span class="atag ${tCls(a.type)}" style="flex-shrink:0">${tIco(a.type)} ${esc(a.type)}</span><div><strong>Axe ${i+1} (${a.id})</strong> — ${esc(a.titre)}</div></div>`}).join("");
+}
+
+/* ── PLAN ── */
+/* Calcule la répartition A/B/C pour UN axe donné, en se basant sur le niveau
+   nc[axe.codeC] de chaque élève (1 → Groupe A, 2 → Groupe B, 3 ou 4 → Groupe C),
+   plutôt que sur c.ng (moyenne globale) qui était utilisé pour tous les axes
+   indifféremment. Chaque axe portant sur une compétence différente (codeC),
+   un élève peut donc se retrouver dans un groupe différent selon l'axe. */
+function groupesPourAxe(axe,calcsValides){
+  var champ={"C1":"nc1","C2":"nc2","C3":"nc3","C4":"nc4","C5":"nc5"}[axe.codeC];
+  if(!champ)return{nA:0,nB:0,nC:0};
+  var nA=0,nB=0,nC=0;
+  calcsValides.forEach(c=>{
+    var n=c[champ];
+    if(n===null||n===undefined)return;
+    if(n===1)nA++;
+    else if(n===2)nB++;
+    else if(n===3||n===4)nC++;
+  });
+  return{nA,nB,nC};
+}
+function genererPlan(){
+  if(axesSel.length<2){alert("Sélectionnez au moins 2 axes pour générer une planification cohérente.");return}
+  if(axesSel.length>4){alert("Maximum 4 axes — désélectionnez-en au moins un avant de générer la planification.");return}
+  goTo(5);
+}
+/* gcolHtml(cls, label, nb, g) génère le contenu détaillé d'un groupe de niveau pour une séance :
+   la tâche, la consigne, le critère de réalisation (ce que l'élève doit FAIRE pour exécuter
+   correctement la tâche), le critère de réussite (indicateur chiffré de l'atteinte de l'objectif)
+   et la variable de régulation (adaptations possibles pour simplifier/complexifier). Chaque
+   élément est clairement étiqueté pour une lecture simple et professionnelle par l'enseignant. */
+function gcolHtml(cls,label,nb,g){
+  return`<div class="gcol ${cls}">
+    <div class="gtt">${esc(label)} (${nb} él.)</div>
+    <div class="gsec"><div class="gslbl">Tâche</div><div class="gk">${esc(g.tache)}</div></div>
+    <div class="gsec"><div class="gslbl">Consigne</div><div class="gk">${esc(g.consigne)}</div></div>
+    <div class="gsec"><div class="gslbl">Critère de réalisation</div><div class="gk">${esc(g.realisation)}</div></div>
+    <div class="gcr">✓ Critère de réussite — ${esc(g.reussite)}</div>
+    <div class="gsec"><div class="gslbl">Variable de régulation</div><div class="greg">${esc(g.regulation)}</div></div>
+  </div>`;
+}
+function renderPlan(){
+  var div=document.getElementById("plan-content");
+  if(!axesSel.length||!joueurs.length){div.innerHTML='<div class="al al-w">⚠️ Complétez les étapes 1 à 4.</div>';return}
+  var axes=axesSel.map(id=>AXES.find(a=>a.id===id));
+  var calcsAll=joueurs.map(calcJ);
+  var cs=calcsAll.filter(c=>!c.insuffisant),tot=calcsAll.length;
+  var insuf=tot-cs.length;
+  // Répartition globale (toutes compétences confondues, basée sur c.ng) : utilisée uniquement
+  // pour la phrase de synthèse en haut de la page. Distincte de groupesPourAxe(), qui calcule
+  // une répartition propre à chaque axe (voir boucle axes.forEach ci-dessous).
+  var nAg=cs.filter(c=>groupeEleve(c)==="A").length,nBg=cs.filter(c=>groupeEleve(c)==="B").length,nCg=cs.filter(c=>groupeEleve(c)==="C").length;
+  var base=Math.floor(nbS/axes.length),reste=nbS-base*axes.length;
+  var sPA=axes.map((_,i)=>base+(i<reste?1:0));
+  var html="",gnum=0;
+  axes.forEach((axe,ai)=>{
+    var{nA,nB,nC}=groupesPourAxe(axe,cs);
+    for(var s=0;s<sPA[ai];s++){
+      gnum++;
+      var isF=s===0,isL=s===sPA[ai]-1;
+      var phase=isF?"Découverte":(isL?"Consolidation":"Développement");
+      var phCls=isF?"pd":(isL?"pc":"pv");var phIco=isF?"🌱":(isL?"🏆":"📈");
+      // Sélection de la version pédagogique (decouverte/developpement/consolidation) en fonction
+      // de la phase réellement calculée pour cette séance, au lieu d'un texte fixe unique répété
+      // sur toutes les séances de l'axe. Cas particulier : quand l'axe ne dispose que d'une seule
+      // séance (sPA[ai]===1), isF et isL sont simultanément vrais sur cette unique séance ; on
+      // retient alors la version "developpement" (intermédiaire) plutôt que "decouverte", pour
+      // éviter de cantonner un axe à une seule séance à son contenu le plus simple.
+      var verKey=sPA[ai]===1?"developpement":(isF?"decouverte":(isL?"consolidation":"developpement"));
+      var ver=axe.versions[verKey];
+      html+=`<div class="sc">
+        <div class="sh">
+          <span class="snum-lbl">Séance ${gnum} / ${nbS}</span>
+          <span class="stit">${esc(axe.titre)}</span>
+          <span class="sphase ${phCls}">${phIco} ${phase}</span>
+          <span class="stag">${axe.id}</span>
+        </div>
+        <div class="sbody">
+          <div class="ggrid">
+            ${gcolHtml("ga","Groupe A — N1 Débutant",nA,ver.A)}
+            ${gcolHtml("gb","Groupe B — N2 Construction",nB,ver.B)}
+            ${gcolHtml("gc","Groupe C — N3/N4 Maîtrisé",nC,ver.C)}
+          </div>
+          <div class="sarow"><div class="salbl">📋 SA de référence</div><div class="satxt">${esc(axe.sa)}</div></div>
+          <div class="pind">▲ Indicateur de passage : ${esc(axe.pi)}</div>
+        </div>
+      </div>`;
+    }
+  });
+  div.innerHTML=`
+    <div class="al al-i" style="margin-bottom:18px">📅 <strong>${nbS} séances — ${axes.length} axe(s) — ${tot} élève(s)</strong><br>Répartition : ${nAg} él. Groupe A (N1) · ${nBg} en B (N2) · ${nCg} en C (N3/N4).${insuf?` · ⚠️ ${insuf} él. à données incomplètes (non groupé).`:""}</div>
+    ${html}
+    <div class="al al-w" style="margin-top:16px;font-size:.74rem">⚠️ <strong>Rappel</strong> : Cet outil est une aide à la décision pédagogique. Il ne produit pas de note. C5 est hors note. Indicateurs de passage indicatifs.</div>
+    <div class="ar">
+      <button class="btn btn-g" onclick="window.print()">🖨️ Imprimer la planification</button>
+      <button class="btn btn-g" onclick="telechargerClassificationXLSX()">📊 Télécharger le tableau (Excel)</button>
+    </div>`;
+}
+
+function esc(s){if(!s)return"";return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
+updateSlider(8);kpis();
+</script>
+</body>
+</html>
